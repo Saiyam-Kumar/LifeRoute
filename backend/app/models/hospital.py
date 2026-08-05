@@ -2,21 +2,17 @@ from pydantic import BaseModel
 
 
 class Hospital(BaseModel):
-
-    id: str
-
     name: str
-
     latitude: float
-
     longitude: float
 
-    address: str
-
-    icu_beds: int
-
+    available_beds: int
+    available_icu: int
     ventilators: int
 
-    emergency_doctors: int
+    emergency_level: str
+    hospital_type: str
 
-    available: bool
+    specialists: list[str]
+
+    is_open: bool
