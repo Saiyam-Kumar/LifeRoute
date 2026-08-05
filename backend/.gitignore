@@ -16,3 +16,5 @@ backend/.env
 
 # VS Code
 .vscode/
+
+firebase_key.json
