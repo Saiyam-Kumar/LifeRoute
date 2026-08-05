@@ -30,3 +30,4 @@ app.include_router(health_router)
 app.include_router(emergency_router)
 
 app.include_router(hospital_router)
+
