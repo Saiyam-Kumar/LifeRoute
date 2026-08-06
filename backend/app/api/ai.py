@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
 from app.models.patient_input import PatientInput
+from app.services.hospital_service import HospitalService
 
 from ai.predictor import predict_ktas
 from ai.resource_engine.resource_predictor import predict_resources
@@ -10,6 +11,8 @@ router = APIRouter(
     prefix="/ai",
     tags=["AI"]
 )
+
+hospital_service = HospitalService()
 
 
 @router.post("/predict")
@@ -30,10 +33,16 @@ def predict(patient: PatientInput):
     resource_result = predict_resources(patient_data)
 
     # ----------------------------
-    # Step 3: Hospital Ranking
+    # Step 3: Fetch Hospitals
+    # ----------------------------
+    hospitals = hospital_service.get_all_hospitals()
+
+    # ----------------------------
+    # Step 4: Hospital Ranking
     # ----------------------------
     hospital_result = recommend_hospital(
-        resource_result["resources"]
+        resource_result["resources"],
+        hospitals
     )
 
     # ----------------------------
