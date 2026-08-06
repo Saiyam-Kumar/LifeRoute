@@ -3,19 +3,19 @@ from pydantic import BaseModel
 
 class PatientInput(BaseModel):
     group: int
-    sex: str
+    sex: int
     age: int
     patients_number_per_hour: int
-    arrival_mode: str
-    injury: str
+    arrival_mode: int
+    injury: int
     chief_complain: str
-    mental: str
+    mental: int
     pain: int
     nrs_pain: int
-    sbp: int
-    dbp: int
-    hr: int
-    rr: int
+    sbp: float
+    dbp: float
+    hr: float
+    rr: float
     bt: float
-    saturation: int
+    saturation: float
     saturation_missing: int
