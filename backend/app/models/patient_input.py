@@ -19,3 +19,6 @@ class PatientInput(BaseModel):
     bt: float
     saturation: float
     saturation_missing: int
+
+    latitude: float
+    longitude: float

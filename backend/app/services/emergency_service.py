@@ -1,20 +1,33 @@
-from app.services.maps import MapsService
+from app.services.recommendation import RecommendationService
 
 
 class EmergencyService:
 
     def __init__(self):
-        self.maps = MapsService()
+        self.recommendation = RecommendationService()
 
-    def process_emergency(self, patient):
+    def process_emergency(
+        self,
+        patient,
+        patient_resources,
+    ):
+        """
+        Processes an emergency request and returns
+        the best hospital recommendation.
+        """
 
-        hospitals = self.maps.get_nearby_hospitals(
+        patient_location = (
             patient.latitude,
             patient.longitude
         )
 
+        recommendation = self.recommendation.recommend_hospital(
+            patient_location=patient_location,
+            patient_resources=patient_resources,
+        )
+
         return {
-            "message": "Emergency request received.",
+            "message": "Emergency processed successfully.",
             "patient": patient.model_dump(),
-            "nearby_hospitals": hospitals
+            "recommended_hospital": recommendation
         }
