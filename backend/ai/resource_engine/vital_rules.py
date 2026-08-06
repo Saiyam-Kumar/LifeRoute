@@ -3,12 +3,13 @@ LifeRoute AI
 Vital Signs Rules
 """
 
+
 def get_vital_resources(patient):
 
     resources = set()
 
     # Low oxygen
-    if patient["spo2"] < 90:
+    if patient["saturation"] < 90:
         resources.update([
             "Oxygen",
             "Ventilator",

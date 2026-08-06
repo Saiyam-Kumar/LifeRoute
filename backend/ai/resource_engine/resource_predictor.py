@@ -1,7 +1,7 @@
-from medical_categories import MEDICAL_CATEGORIES
-from category_resources import CATEGORY_RESOURCES
-from vital_rules import get_vital_resources
-from ktas_rules import get_ktas_resources
+from ai.resource_engine.medical_categories import MEDICAL_CATEGORIES
+from ai.resource_engine.category_resources import CATEGORY_RESOURCES
+from ai.resource_engine.vital_rules import get_vital_resources
+from ai.resource_engine.ktas_rules import get_ktas_resources
 
 
 def predict_resources(patient):
@@ -32,7 +32,6 @@ def predict_resources(patient):
     if category:
         resources.update(CATEGORY_RESOURCES[category])
         reasons.append(f"Chief complaint belongs to {category}")
-
     else:
         reasons.append("Chief complaint not found in knowledge base")
 
@@ -42,7 +41,7 @@ def predict_resources(patient):
     vital_resources = get_vital_resources(patient)
     resources.update(vital_resources)
 
-    if patient["spo2"] < 90:
+    if patient["saturation"] < 90:
         reasons.append("Low SpO₂ (<90%) → Oxygen support required")
 
     if patient["sbp"] < 90:
