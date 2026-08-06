@@ -1,4 +1,4 @@
-from hospital_database import HOSPITALS
+from ai.hospital_engine.hospital_database import HOSPITALS
 
 
 def recommend_hospital(patient_resources):
