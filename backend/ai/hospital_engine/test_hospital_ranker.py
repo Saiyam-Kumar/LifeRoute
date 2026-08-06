@@ -7,26 +7,39 @@ patient_resources = [
     "Emergency Physician"
 ]
 
-result = recommend_hospital(patient_resources)
+hospitals = [
+    {
+        "name": "Apollo Hospital",
+        "available_icu": 4,
+        "ventilators": 6,
+        "specialists": [
+            "Emergency Physician",
+            "Cardiologist"
+        ],
+        "resources": [
+            "CT Scan",
+            "ECG",
+            "Cardiac Monitoring"
+        ],
+        "is_open": True,
+        "eta": 8
+    },
+    {
+        "name": "City Hospital",
+        "available_icu": 1,
+        "ventilators": 2,
+        "specialists": [],
+        "resources": [
+            "ECG"
+        ],
+        "is_open": True,
+        "eta": 5
+    }
+]
 
-print("\n===== BEST HOSPITAL =====\n")
+result = recommend_hospital(
+    patient_resources,
+    hospitals
+)
 
-print("Hospital:")
-print(result["hospital"])
-
-print("\nScore:")
-print(result["score"])
-
-print("\nMatched Resources:")
-for item in result["matched_resources"]:
-    print("-", item)
-
-print("\nMissing Resources:")
-for item in result["missing_resources"]:
-    print("-", item)
-
-print("\nETA:")
-print(result["eta"], "minutes")
-
-print("\nWaiting Time:")
-print(result["waiting_time"], "minutes")
+print(result)
