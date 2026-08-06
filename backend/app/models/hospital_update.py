@@ -4,6 +4,7 @@ from pydantic import BaseModel
 
 class HospitalUpdate(BaseModel):
     name: Optional[str] = None
+
     latitude: Optional[float] = None
     longitude: Optional[float] = None
 
@@ -11,9 +12,11 @@ class HospitalUpdate(BaseModel):
     available_icu: Optional[int] = None
     ventilators: Optional[int] = None
 
-    emergency_level: Optional[str] = None
-    hospital_type: Optional[str] = None
-
     specialists: Optional[list[str]] = None
+
+    resources: Optional[list[str]] = None
+
+    hospital_type: Optional[str] = None
+    emergency_level: Optional[str] = None
 
     is_open: Optional[bool] = None

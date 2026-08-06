@@ -3,6 +3,7 @@ from pydantic import BaseModel
 
 class Hospital(BaseModel):
     name: str
+
     latitude: float
     longitude: float
 
@@ -10,9 +11,11 @@ class Hospital(BaseModel):
     available_icu: int
     ventilators: int
 
-    emergency_level: str
-    hospital_type: str
-
     specialists: list[str]
+
+    resources: list[str]
+
+    hospital_type: str
+    emergency_level: str
 
     is_open: bool
