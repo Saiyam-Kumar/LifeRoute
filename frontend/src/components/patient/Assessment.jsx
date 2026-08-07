@@ -146,7 +146,6 @@ export default function Assessment() {
   const [symptoms, setSymptoms] = useState("");
   const [pain, setPain] = useState(3);
   const [arrivalMode, setArrivalMode] = useState("");
-  const [patientsPerHour, setPatientsPerHour] = useState("");
   const [consciousness, setConsciousness] = useState("");
   const [breathing, setBreathing] = useState("");
   const [heartRate, setHeartRate] = useState("");
@@ -268,15 +267,6 @@ export default function Assessment() {
                 />
               </Field>
 
-              <Field label="Patients Per Hour">
-                <input
-                  type="number"
-                  placeholder="8"
-                  value={patientsPerHour}
-                  onChange={(e) => setPatientsPerHour(e.target.value)}
-                  className={inputClass}
-                />
-              </Field>
               <Field label="Gender">
                 <SegmentedControl
                   options={GENDER_OPTIONS}

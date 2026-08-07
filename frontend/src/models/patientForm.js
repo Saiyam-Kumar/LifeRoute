@@ -6,7 +6,7 @@ export const initialPatientForm = {
 
     age: "",
 
-    patients_number_per_hour: 0,
+    patients_number_per_hour: 8,
 
     arrival_mode: 1,
 
