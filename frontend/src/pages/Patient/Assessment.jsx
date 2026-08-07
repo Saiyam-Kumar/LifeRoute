@@ -1,5 +1,5 @@
-function Assessment() {
-    return <h1>Patient Assessment</h1>;
-}
+import Assessment from "../../components/patient/Assessment";
 
-export default Assessment;
+export default function AssessmentPage() {
+  return <Assessment />;
+}

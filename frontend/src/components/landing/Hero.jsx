@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { User, Sparkles, Building2 } from "lucide-react";
 import Button from "../common/Button";
 import RoutePath from "../common/RoutePath";
+
 
 const NODES = [
   { key: "patient", label: "Patient", sub: "Symptoms in", Icon: User, x: 60, y: 150 },
@@ -12,6 +14,8 @@ const NODES = [
 const PATH = "M60,150 C 160,150 200,50 300,50 C 400,50 440,150 540,150";
 
 export default function Hero() {
+  const navigate = useNavigate();
+
   return (
     <section id="top" className="relative overflow-hidden bg-ink pt-40 pb-28 lg:pt-48 lg:pb-36">
       {/* ambient background: faint grid + slow drifting gradient, no blobs */}
@@ -79,7 +83,12 @@ export default function Hero() {
               transition={{ duration: 0.7, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-wrap items-center gap-4 pt-2"
             >
-              <Button variant="primary">Start Emergency Assessment</Button>
+              <Button
+                variant="primary"
+                onClick={() => navigate("/patient/assessment")}
+              >
+                Start Emergency Assessment
+              </Button>
               <Button variant="secondary-dark" icon={false}>
                 See How It Works
               </Button>
@@ -121,11 +130,10 @@ export default function Hero() {
                     }}
                   >
                     <div
-                      className={`flex items-center justify-center h-11 w-11 rounded-full border ${
-                        node.accent
+                      className={`flex items-center justify-center h-11 w-11 rounded-full border ${node.accent
                           ? "bg-signal/15 border-signal/40"
                           : "bg-panel-raised border-white/15"
-                      }`}
+                        }`}
                     >
                       <node.Icon
                         size={18}
