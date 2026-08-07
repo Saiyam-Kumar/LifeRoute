@@ -1,5 +1,5 @@
-function HospitalDetails() {
-    return <h1>Hospital Details</h1>;
-}
+import HospitalDetails from "../../components/patient/HospitalDetails";
 
-export default HospitalDetails;
+export default function HospitalDetailsPage() {
+  return <HospitalDetails />;
+}

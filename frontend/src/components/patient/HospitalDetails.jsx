@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import usePrediction from "../../hooks/usePrediction";
 import { motion } from "framer-motion";
 import {
     ArrowLeft,
@@ -82,9 +83,21 @@ function Panel({ children, className = "" }) {
     );
 }
 
-export default function HospitalDetails({ prediction = MOCK_PREDICTION }) {
+export default function HospitalDetails() {
+
+    const { prediction } = usePrediction();
+    console.log("HOSPITAL:", prediction);
+
+    if (!prediction) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <p>No hospital recommendation available.</p>
+            </div>
+        );
+    }
     const navigate = useNavigate();
     const hospital = prediction.recommended_hospital;
+    console.log("Hospital object:", hospital);
     const matched = new Set(hospital.matched_resources);
 
     return (
@@ -188,7 +201,7 @@ export default function HospitalDetails({ prediction = MOCK_PREDICTION }) {
                                     <span className="font-mono text-[10px] uppercase tracking-wide">Distance</span>
                                 </div>
                                 <div className="font-display font-semibold text-[18px] sm:text-[20px] text-ink tracking-tightest">
-                                    {hospital.distance}
+                                    {hospital.distance_km ? `${hospital.distance_km} km` : "N/A"}
                                 </div>
                             </div>
                         </div>
@@ -267,7 +280,7 @@ export default function HospitalDetails({ prediction = MOCK_PREDICTION }) {
                                     className="text-ink-faint"
                                 />
                                 <span className="text-[13.5px] text-ink-soft">
-                                    {hospital.phone}
+                                    {hospital.phone ?? "Not Available"}
                                 </span>
                             </div>
 
@@ -280,11 +293,11 @@ export default function HospitalDetails({ prediction = MOCK_PREDICTION }) {
                         </div>
                         <div className="flex items-start gap-2.5 px-4 py-3.5">
                             <MapPin size={15} strokeWidth={1.75} className="text-ink-faint shrink-0 mt-0.5" />
-                            <span className="text-[13.5px] text-ink-soft">{hospital.address}</span>
+                            <span className="text-[13.5px] text-ink-soft">{hospital.address ?? "Address not available"}</span>
                         </div>
                         <div className="flex items-start gap-2.5 px-4 py-3.5">
                             <Building2 size={15} strokeWidth={1.75} className="text-ink-faint shrink-0 mt-0.5" />
-                            <span className="text-[13.5px] text-ink-soft">{hospital.emergency_department}</span>
+                            <span className="text-[13.5px] text-ink-soft">{hospital.emergency_department ?? "Emergency Department"}</span>
                         </div>
                     </div>
                 </Panel>

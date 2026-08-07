@@ -1,5 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 
 from app.core.config import settings
 
@@ -26,10 +28,24 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ----------------------------
+# Validation Error Handler
+# ----------------------------
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    print("\n========== VALIDATION ERROR ==========")
+    print(exc.errors())
+    print("======================================\n")
+
+    return JSONResponse(
+        status_code=422,
+        content={"detail": exc.errors()},
+    )
+
+# ----------------------------
+# Routers
+# ----------------------------
 app.include_router(health_router)
-
 app.include_router(emergency_router)
-
 app.include_router(hospital_router)
-
 app.include_router(ai_router)

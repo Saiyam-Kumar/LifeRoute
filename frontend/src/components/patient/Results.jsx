@@ -1,3 +1,4 @@
+import usePrediction from "../../hooks/usePrediction";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
@@ -88,7 +89,18 @@ function Panel({ children, className = "" }) {
 
 /* ==================================================================== */
 
-export default function Results({ prediction = MOCK_PREDICTION }) {
+export default function Results() {
+
+    const { prediction } = usePrediction();
+    console.log("RESULTS:", prediction);
+
+    if (!prediction) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <p>No prediction available.</p>
+            </div>
+        );
+    }
     const ktas = KTAS_MAP[prediction.ktas_level] ?? KTAS_MAP[3];
     const hospital = prediction.recommended_hospital;
     const navigate = useNavigate();
@@ -234,7 +246,7 @@ export default function Results({ prediction = MOCK_PREDICTION }) {
                                     <span className="font-mono text-[10px] uppercase tracking-wide">Distance</span>
                                 </div>
                                 <div className="font-display font-semibold text-[18px] sm:text-[20px] text-ink tracking-tightest">
-                                    {hospital.distance}
+                                    {hospital.distance_km ? `${hospital.distance_km} km` : "N/A"}
                                 </div>
                             </div>
                         </div>

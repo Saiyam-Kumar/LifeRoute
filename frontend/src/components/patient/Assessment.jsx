@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import usePatientForm from "../../hooks/usePatientForm";
 import {
   User,
   MessageSquareText,
@@ -150,6 +151,14 @@ export default function Assessment() {
   const [conditions, setConditions] = useState("");
   const navigate = useNavigate();
 
+  const {
+    formData,
+    errors,
+    handleChange,
+    detectLocation,
+    submitForm,
+  } = usePatientForm();
+
   return (
     <div className="min-h-screen bg-canvas pb-28">
       {/* header */}
@@ -236,8 +245,8 @@ export default function Assessment() {
                   min="0"
                   max="120"
                   placeholder="e.g. 34"
-                  value={age}
-                  onChange={(e) => setAge(e.target.value)}
+                  value={formData.age}
+                  onChange={(e) => handleChange("age", Number(e.target.value))}
                   className={inputClass}
                 />
               </Field>
@@ -245,7 +254,11 @@ export default function Assessment() {
                 <SegmentedControl
                   options={GENDER_OPTIONS}
                   value={gender}
-                  onChange={setGender}
+                  onChange={(value) => {
+                    setGender(value);
+
+                    handleChange("sex", value === "male" ? 1 : 0);
+                  }}
                   columns={3}
                 />
               </Field>
@@ -263,8 +276,8 @@ export default function Assessment() {
                 rows={4}
                 maxLength={500}
                 placeholder="e.g. Sharp chest pain since 20 minutes ago, worse when breathing in..."
-                value={symptoms}
-                onChange={(e) => setSymptoms(e.target.value)}
+                value={formData.chief_complain}
+                onChange={(e) => handleChange("chief_complain", e.target.value)}
                 className={`${inputClass} resize-none`}
               />
             </Field>
@@ -283,7 +296,12 @@ export default function Assessment() {
                     <button
                       key={n}
                       type="button"
-                      onClick={() => setPain(n)}
+                      onClick={() => {
+                        setPain(n);
+
+                        handleChange("nrs_pain", n);
+                        handleChange("pain", n > 0 ? 1 : 0);
+                      }}
                       aria-label={`Pain level ${n}`}
                       className={`flex-1 rounded-lg py-2 text-[12px] font-mono transition-all duration-150 ${n === pain
                         ? "bg-route text-canvas"
@@ -302,7 +320,18 @@ export default function Assessment() {
                 <Field label="Consciousness">
                   <Select
                     value={consciousness}
-                    onChange={setConsciousness}
+                    onChange={(value) => {
+                      setConsciousness(value);
+
+                      const mentalMap = {
+                        alert: 1,
+                        verbal: 2,
+                        pain: 3,
+                        unresponsive: 4,
+                      };
+
+                      handleChange("mental", mentalMap[value]);
+                    }}
                     options={CONSCIOUSNESS_OPTIONS}
                     placeholder="Select a state"
                   />
@@ -329,8 +358,8 @@ export default function Assessment() {
                     <input
                       type="number"
                       placeholder="72"
-                      value={heartRate}
-                      onChange={(e) => setHeartRate(e.target.value)}
+                      value={formData.hr}
+                      onChange={(e) => handleChange("hr", Number(e.target.value))}
                       className={`${inputClass} pl-10`}
                     />
                   </div>
@@ -339,8 +368,8 @@ export default function Assessment() {
                   <input
                     type="number"
                     placeholder="18"
-                    value={respiratoryRate}
-                    onChange={(e) => setRespiratoryRate(e.target.value)}
+                    value={formData.rr}
+                    onChange={(e) => handleChange("rr", Number(e.target.value))}
                     className={inputClass}
                   />
                 </Field>
@@ -350,16 +379,16 @@ export default function Assessment() {
                     <input
                       type="number"
                       placeholder="120"
-                      value={bpSystolic}
-                      onChange={(e) => setBpSystolic(e.target.value)}
+                      value={formData.sbp}
+                      onChange={(e) => handleChange("sbp", Number(e.target.value))}
                       className={inputClass}
                     />
                     <span className="text-ink-faint font-mono text-[13px]">/</span>
                     <input
                       type="number"
                       placeholder="80"
-                      value={bpDiastolic}
-                      onChange={(e) => setBpDiastolic(e.target.value)}
+                      value={formData.dbp}
+                      onChange={(e) => handleChange("dbp", Number(e.target.value))}
                       className={inputClass}
                     />
                   </div>
@@ -375,8 +404,8 @@ export default function Assessment() {
                     <input
                       type="number"
                       placeholder="98.6"
-                      value={temperature}
-                      onChange={(e) => setTemperature(e.target.value)}
+                      value={formData.bt}
+                      onChange={(e) => handleChange("bt", Number(e.target.value))}
                       className={`${inputClass} pl-10`}
                     />
                   </div>
@@ -385,8 +414,10 @@ export default function Assessment() {
                   <input
                     type="number"
                     placeholder="98"
-                    value={oxygenSaturation}
-                    onChange={(e) => setOxygenSaturation(e.target.value)}
+                    value={formData.saturation}
+                    onChange={(e) =>
+                      handleChange("saturation", Number(e.target.value))
+                    }
                     className={inputClass}
                   />
                 </Field>
@@ -405,7 +436,10 @@ export default function Assessment() {
                 <input
                   type="checkbox"
                   checked={hasInjury}
-                  onChange={(e) => setHasInjury(e.target.checked)}
+                  onChange={(e) => {
+                    setHasInjury(e.target.checked);
+                    handleChange("injury", e.target.checked ? 1 : 0);
+                  }}
                   className="h-4.5 w-4.5 rounded-md border-ink/20 text-route accent-[#FF5A36]"
                 />
                 <span className="text-[14.5px] font-medium text-ink">
@@ -440,7 +474,10 @@ export default function Assessment() {
         <div className="mt-8 flex flex-col sm:flex-row items-center gap-4">
           <button
             type="button"
-            onClick={() => navigate("/patient/loading")}
+            onClick={async () => {
+              await detectLocation();
+              await submitForm();
+            }}
             className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-route px-8 py-4 text-[15px] font-medium text-canvas transition-all duration-300 hover:bg-[#ff6b4a] active:scale-[0.98] shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset,0_8px_24px_-8px_rgba(255,90,54,0.55)]"
           >
             Continue Assessment

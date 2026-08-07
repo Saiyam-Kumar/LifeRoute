@@ -60,14 +60,15 @@ def recommend_hospital(patient_resources, hospitals):
             best_score = final_score
 
             best_hospital = {
-                "hospital": hospital["name"],
-                "score": round(final_score, 2),
-                "matched_resources": matched,
-                "missing_resources": [
-                    r for r in patient_resources
-                    if r not in matched
-                ],
-                "eta": hospital.get("eta", None)
-            }
+    "hospital": hospital["name"],
+    "score": round(final_score, 2),
+    "matched_resources": matched,
+    "missing_resources": [
+        r for r in patient_resources
+        if r not in matched
+    ],
+    "eta": hospital.get("eta", None),
+    "distance_km": hospital.get("distance_km", None)
+}
 
     return best_hospital
