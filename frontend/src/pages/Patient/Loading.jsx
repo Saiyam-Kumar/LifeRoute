@@ -1,5 +1,5 @@
-function Loading() {
-    return <h1>AI Processing...</h1>;
-}
+import Loading from "../../components/patient/Loading";
 
-export default Loading;
+export default function LoadingPage() {
+  return <Loading />;
+}

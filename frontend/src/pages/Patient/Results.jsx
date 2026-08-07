@@ -1,5 +1,5 @@
-function Results() {
-    return <h1>Results Page</h1>;
-}
+import Results from "../../components/patient/Results";
 
-export default Results;
+export default function ResultsPage() {
+  return <Results />;
+}
