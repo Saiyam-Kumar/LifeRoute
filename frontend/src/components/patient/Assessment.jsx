@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   User,
   MessageSquareText,
@@ -58,9 +59,8 @@ function Select({ value, onChange, options, placeholder }) {
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`${inputClass} appearance-none pr-10 ${
-          value ? "text-ink" : "text-ink-faint"
-        }`}
+        className={`${inputClass} appearance-none pr-10 ${value ? "text-ink" : "text-ink-faint"
+          }`}
       >
         <option value="" disabled>
           {placeholder}
@@ -93,11 +93,10 @@ function SegmentedControl({ options, value, onChange, columns = 3 }) {
             key={opt.value}
             type="button"
             onClick={() => onChange(opt.value)}
-            className={`rounded-xl border px-3 py-2.5 text-[13.5px] font-medium transition-all duration-200 ${
-              active
-                ? "border-route bg-route/[0.08] text-route"
-                : "border-ink/[0.1] bg-canvas-dim/40 text-ink-soft hover:border-ink/20"
-            }`}
+            className={`rounded-xl border px-3 py-2.5 text-[13.5px] font-medium transition-all duration-200 ${active
+              ? "border-route bg-route/[0.08] text-route"
+              : "border-ink/[0.1] bg-canvas-dim/40 text-ink-soft hover:border-ink/20"
+              }`}
           >
             {opt.label}
           </button>
@@ -144,9 +143,12 @@ export default function Assessment() {
   const [bpSystolic, setBpSystolic] = useState("");
   const [bpDiastolic, setBpDiastolic] = useState("");
   const [temperature, setTemperature] = useState("");
+  const [respiratoryRate, setRespiratoryRate] = useState("");
+  const [oxygenSaturation, setOxygenSaturation] = useState("");
   const [hasInjury, setHasInjury] = useState(false);
   const [allergies, setAllergies] = useState("");
   const [conditions, setConditions] = useState("");
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-canvas pb-28">
@@ -183,18 +185,16 @@ export default function Assessment() {
                 <div key={step} className="flex items-center flex-1 last:flex-none">
                   <div className="flex items-center gap-2.5">
                     <span
-                      className={`flex items-center justify-center h-6 w-6 rounded-full border font-mono text-[11px] shrink-0 ${
-                        active
-                          ? "border-route bg-route text-canvas"
-                          : "border-ink/15 text-ink-faint"
-                      }`}
+                      className={`flex items-center justify-center h-6 w-6 rounded-full border font-mono text-[11px] shrink-0 ${active
+                        ? "border-route bg-route text-canvas"
+                        : "border-ink/15 text-ink-faint"
+                        }`}
                     >
                       {i + 1}
                     </span>
                     <span
-                      className={`text-[13px] font-medium hidden sm:inline whitespace-nowrap ${
-                        active ? "text-ink" : "text-ink-faint"
-                      }`}
+                      className={`text-[13px] font-medium hidden sm:inline whitespace-nowrap ${active ? "text-ink" : "text-ink-faint"
+                        }`}
                     >
                       {step}
                     </span>
@@ -285,13 +285,12 @@ export default function Assessment() {
                       type="button"
                       onClick={() => setPain(n)}
                       aria-label={`Pain level ${n}`}
-                      className={`flex-1 rounded-lg py-2 text-[12px] font-mono transition-all duration-150 ${
-                        n === pain
-                          ? "bg-route text-canvas"
-                          : n < pain
+                      className={`flex-1 rounded-lg py-2 text-[12px] font-mono transition-all duration-150 ${n === pain
+                        ? "bg-route text-canvas"
+                        : n < pain
                           ? "bg-route/15 text-route"
                           : "bg-ink/[0.05] text-ink-faint hover:bg-ink/[0.08]"
-                      }`}
+                        }`}
                     >
                       {n}
                     </button>
@@ -336,6 +335,15 @@ export default function Assessment() {
                     />
                   </div>
                 </Field>
+                <Field label="Respiratory Rate" hint="breaths/min">
+                  <input
+                    type="number"
+                    placeholder="18"
+                    value={respiratoryRate}
+                    onChange={(e) => setRespiratoryRate(e.target.value)}
+                    className={inputClass}
+                  />
+                </Field>
 
                 <Field label="Blood pressure" hint="mmHg">
                   <div className="flex items-center gap-2">
@@ -372,6 +380,15 @@ export default function Assessment() {
                       className={`${inputClass} pl-10`}
                     />
                   </div>
+                </Field>
+                <Field label="Oxygen Saturation" hint="%">
+                  <input
+                    type="number"
+                    placeholder="98"
+                    value={oxygenSaturation}
+                    onChange={(e) => setOxygenSaturation(e.target.value)}
+                    className={inputClass}
+                  />
                 </Field>
               </div>
             </div>
@@ -423,6 +440,7 @@ export default function Assessment() {
         <div className="mt-8 flex flex-col sm:flex-row items-center gap-4">
           <button
             type="button"
+            onClick={() => navigate("/patient/loading")}
             className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-route px-8 py-4 text-[15px] font-medium text-canvas transition-all duration-300 hover:bg-[#ff6b4a] active:scale-[0.98] shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset,0_8px_24px_-8px_rgba(255,90,54,0.55)]"
           >
             Continue Assessment
