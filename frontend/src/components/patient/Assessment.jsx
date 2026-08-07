@@ -132,11 +132,20 @@ const BREATHING_OPTIONS = [
   { value: "absent", label: "Absent" },
 ];
 
+const ARRIVAL_MODE_OPTIONS = [
+  { value: "1", label: "Walk-in" },
+  { value: "2", label: "Wheelchair" },
+  { value: "3", label: "Ambulance" },
+  { value: "4", label: "Transfer from another hospital" },
+];
+
 export default function Assessment() {
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("female");
   const [symptoms, setSymptoms] = useState("");
   const [pain, setPain] = useState(3);
+  const [arrivalMode, setArrivalMode] = useState("");
+  const [patientsPerHour, setPatientsPerHour] = useState("");
   const [consciousness, setConsciousness] = useState("");
   const [breathing, setBreathing] = useState("");
   const [heartRate, setHeartRate] = useState("");
@@ -238,6 +247,24 @@ export default function Assessment() {
                   placeholder="e.g. 34"
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
+                  className={inputClass}
+                />
+              </Field>
+              <Field label="Arrival Mode">
+                <Select
+                  value={arrivalMode}
+                  onChange={setArrivalMode}
+                  options={ARRIVAL_MODE_OPTIONS}
+                  placeholder="Select arrival mode"
+                />
+              </Field>
+
+              <Field label="Patients Per Hour">
+                <input
+                  type="number"
+                  placeholder="8"
+                  value={patientsPerHour}
+                  onChange={(e) => setPatientsPerHour(e.target.value)}
                   className={inputClass}
                 />
               </Field>
