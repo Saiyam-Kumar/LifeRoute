@@ -385,7 +385,7 @@ http://localhost:5173
 
 # 👥 Team
 
-Developed as part of a Healthcare AI Hackathon.
+Developed as part of a Healthcare AI Hackathon by Saiyam Kumar and Stuti Sharma
 
 ---
 
