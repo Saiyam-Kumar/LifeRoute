@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚑 LifeRoute
+# LifeRoute
 
 ### AI-Powered Emergency Triage & Intelligent Hospital Routing Platform
 
@@ -257,7 +257,7 @@ LifeRoute automatically generates a downloadable incident report containing:
 
 ---
 
-# 🚀 Project Flow
+# Project Flow
 
 ```text
 Landing Page
