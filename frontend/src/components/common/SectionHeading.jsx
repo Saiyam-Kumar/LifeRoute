@@ -22,7 +22,7 @@ export default function SectionHeading({
           <span className={`h-1.5 w-1.5 rounded-full ${dark ? "bg-route" : "bg-route"}`} />
           <span
             className={`font-mono text-[12px] uppercase tracking-[0.14em] ${
-              dark ? "text-white/50" : "text-ink-faint"
+              "text-white/50"
             }`}
           >
             {eyebrow}
@@ -31,13 +31,13 @@ export default function SectionHeading({
       )}
       <h2
         className={`font-display font-semibold tracking-tightest text-balance leading-[1.08] text-[clamp(1.75rem,3.2vw,2.75rem)] ${
-          dark ? "text-canvas" : "text-ink"
+          "text-white"
         }`}
       >
         {title}
       </h2>
       {description && (
-        <p className={`text-[16px] leading-relaxed ${dark ? "text-white/60" : "text-ink-soft"}`}>
+        <p className={`text-[16px] leading-relaxed ${"text-white/65"}`}>
           {description}
         </p>
       )}

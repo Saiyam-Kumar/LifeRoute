@@ -1,55 +1,47 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { User, Sparkles, Building2 } from "lucide-react";
 import Button from "../common/Button";
-import RoutePath from "../common/RoutePath";
-
-
-const NODES = [
-  { key: "patient", label: "Patient", sub: "Symptoms in", Icon: User, x: 60, y: 150 },
-  { key: "ai", label: "LifeRoute AI", sub: "Assessing", Icon: Sparkles, x: 300, y: 50, accent: true },
-  { key: "hospital", label: "Right Hospital", sub: "Best match", Icon: Building2, x: 540, y: 150 },
-];
-
-const PATH = "M60,150 C 160,150 200,50 300,50 C 400,50 440,150 540,150";
 
 export default function Hero() {
   const navigate = useNavigate();
 
   return (
-    <section id="top" className="relative overflow-hidden bg-ink pt-40 pb-28 lg:pt-48 lg:pb-36">
-      {/* ambient background: faint grid + slow drifting gradient, no blobs */}
-      <div className="absolute inset-0 grid-texture opacity-40" />
+    <section className="relative overflow-hidden bg-[#0B0D12] pt-36 pb-24 lg:pt-40 lg:pb-32">
+
+      {/* Background */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(70% 55% at 22% 20%, rgba(124,140,245,0.16) 0%, rgba(11,13,18,0) 60%), radial-gradient(60% 50% at 82% 75%, rgba(255,90,54,0.12) 0%, rgba(11,13,18,0) 60%)",
+            "radial-gradient(circle at top left, rgba(74,88,180,.18), transparent 45%), radial-gradient(circle at bottom right, rgba(255,90,54,.10), transparent 40%)",
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-ink" />
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-16 lg:gap-8 items-center">
-          {/* left: copy */}
-          <div className="flex flex-col gap-7">
+
+        <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-20 items-center">
+
+          {/* LEFT */}
+
+          <div>
+
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5"
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 mb-8"
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-route animate-pulse-soft" />
-              <span className="font-mono text-[12px] tracking-wide text-white/60">
+              <span className="h-2 w-2 rounded-full bg-route"></span>
+              <span className="font-mono text-xs text-white/70">
                 Live hospital capacity, not a guess
               </span>
             </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display font-semibold text-canvas leading-[1.02] tracking-tightest text-[clamp(2.4rem,5.4vw,4.4rem)] text-balance"
+              transition={{ delay: 0.05 }}
+              className="font-display text-white/70 font-semibold leading-[1.02] tracking-tight text-[clamp(3.5rem,6vw,5.8rem)]"
             >
               The Right Care.
               <br />
@@ -57,31 +49,21 @@ export default function Hero() {
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-              className="text-white/60 text-[17px] leading-relaxed max-w-md"
+              transition={{ delay: 0.15 }}
+              className="mt-8 text-white/65 text-lg leading-9 max-w-2xl"
             >
-              LifeRoute reads your symptoms, checks real-time hospital capacity
-              and specialty fit, and routes you to the facility built to treat
-              you — not just the one closest to you.
-            </motion.p>
-
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
-              className="font-mono text-[13px] text-white/35 max-w-md"
-            >
-              LifeRoute recommends where to go. It does not diagnose, treat,
-              or replace emergency services.
+              LifeRoute reads your symptoms, checks live hospital capacity,
+              specialist availability, and travel time before recommending
+              the hospital most capable of treating your emergency.
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-wrap items-center gap-4 pt-2"
+              transition={{ delay: 0.25 }}
+              className="flex gap-4 mt-10 flex-wrap"
             >
               <Button
                 variant="primary"
@@ -89,78 +71,117 @@ export default function Hero() {
               >
                 Start Emergency Assessment
               </Button>
+
               <Button variant="secondary-dark" icon={false}>
                 See How It Works
               </Button>
             </motion.div>
+
           </div>
 
-          {/* right: the signature route — Patient → AI → Hospital */}
+          {/* RIGHT */}
+
           <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="relative"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
           >
-            <div className="relative rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-8 lg:p-10">
-              <RoutePath
-                d={PATH}
-                viewBox="0 0 600 200"
-                className="w-full h-auto"
-                strokeColor="#FF5A36"
-                dotColor="#FF5A36"
-                trackColor="rgba(255,255,255,0.1)"
-                duration={3.2}
-              />
 
-              {/* nodes, positioned to match the path's viewBox coordinates */}
-              <div className="absolute inset-8 lg:inset-10">
-                {NODES.map((node, i) => (
-                  <motion.div
-                    key={node.key}
-                    initial={{ opacity: 0, y: 8 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.5 + i * 0.15 }}
-                    className="absolute flex flex-col items-center gap-2.5"
-                    style={{
-                      left: `${(node.x / 600) * 100}%`,
-                      top: `${(node.y / 200) * 100}%`,
-                      transform: "translate(-50%, -50%)",
-                    }}
-                  >
-                    <div
-                      className={`flex items-center justify-center h-11 w-11 rounded-full border ${node.accent
-                          ? "bg-signal/15 border-signal/40"
-                          : "bg-panel-raised border-white/15"
-                        }`}
-                    >
-                      <node.Icon
-                        size={18}
-                        strokeWidth={1.75}
-                        className={node.accent ? "text-signal" : "text-white/70"}
-                      />
-                    </div>
-                    <div className="text-center">
-                      <div className="text-[12.5px] font-medium text-white/85 whitespace-nowrap">
-                        {node.label}
-                      </div>
-                      <div className="font-mono text-[10.5px] text-white/35 whitespace-nowrap">
-                        {node.sub}
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
+            <div className="max-w-xl ml-auto rounded-3xl border border-white/10 bg-[#171C25]/90 backdrop-blur-xl p-7 shadow-[0_20px_70px_rgba(0,0,0,0.45)]">
+
+              <div className="flex justify-between items-center mb-8">
+
+                <div>
+                  <p className="text-xs uppercase tracking-[0.25em] text-white/35">
+                    Live Hospital Intelligence
+                  </p>
+
+                  <h2 className="text-2xl font-semibold text-white mt-2">
+                    AI Recommendation
+                  </h2>
+                </div>
+
+                <div className="h-3 w-3 rounded-full bg-green-400 animate-pulse"></div>
+
               </div>
+
+              <div className="space-y-6">
+
+                <div className="flex justify-between">
+                  <span className="text-white/45">Hospitals Checked</span>
+                  <span className="text-white font-semibold">18</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span className="text-white/45">KTAS Severity</span>
+                  <span className="text-route font-semibold">
+                    Level 2 • Emergent
+                  </span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span className="text-white/45">Predicted ETA</span>
+                  <span className="text-white font-semibold">
+                    11 min
+                  </span>
+                </div>
+
+                <div className="border-t border-white/10"></div>
+
+                <div>
+
+                  <p className="text-white/40 text-sm">
+                    Recommended Hospital
+                  </p>
+
+                  <h1 className="text-3xl font-bold text-white mt-2">
+                    Fortis Delhi
+                  </h1>
+
+                  <p className="text-route mt-2">
+                    Capacity Match • 98%
+                  </p>
+
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 pt-2">
+
+                  <div className="rounded-2xl bg-white/5 p-5">
+
+                    <p className="text-white/40 text-sm">
+                      ICU Beds
+                    </p>
+
+                    <h2 className="text-white text-2xl font-bold mt-2">
+                      14
+                    </h2>
+
+                  </div>
+
+                  <div className="rounded-2xl bg-white/5 p-5">
+
+                    <p className="text-white/40 text-sm">
+                      Confidence
+                    </p>
+
+                    <h2 className="text-route text-3xl font-bold mt-2">
+                      96%
+                    </h2>
+
+                  </div>
+
+                </div>
+
+              </div>
+
             </div>
 
-            <div className="absolute -bottom-4 -right-4 hidden sm:flex items-center gap-2 rounded-full border border-white/10 bg-panel px-3.5 py-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-route" />
-              <span className="font-mono text-[11.5px] text-white/55">Routed in 8.2s avg.</span>
-            </div>
           </motion.div>
+
         </div>
+
       </div>
+
     </section>
   );
 }

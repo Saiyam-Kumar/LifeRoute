@@ -46,9 +46,10 @@ export default function Navbar() {
       initial={{ y: -16, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-canvas/80 backdrop-blur-md border-b border-ink/[0.06]" : "bg-transparent"
-      }`}
+      className={`fixed top-0 inset-x-0 z-[999] transition-all duration-300 ${scrolled
+          ? "bg-[#11131A]/70 backdrop-blur-xl border-b border-white/10"
+          : "bg-transparent"
+        }`}
     >
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-8 h-[72px]">
         <Logo />
@@ -58,7 +59,7 @@ export default function Navbar() {
             <a
               key={link.label}
               href={link.href}
-              className="text-[14px] font-medium text-ink-soft hover:text-ink transition-colors"
+              className="text-[14px] font-medium text-white/70 hover:text-white transition-colors"
             >
               {link.label}
             </a>
@@ -72,7 +73,7 @@ export default function Navbar() {
         </div>
 
         <button
-          className="md:hidden text-ink"
+          className="md:hidden text-white"
           onClick={() => setOpen((v) => !v)}
           aria-label="Toggle menu"
           aria-expanded={open}
