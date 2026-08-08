@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Landing
 import Landing from "../pages/Landing/Landing";
+import Incidents from "../pages/Incidents/Incidents";
 
 // Auth
 import PatientLogin from "../pages/Auth/PatientLogin";
@@ -46,6 +47,7 @@ function AppRoutes() {
                 <Route path="/hospital/resources" element={<Resources />} />
                 <Route path="/hospital/analytics" element={<Analytics />} />
                 <Route path="/hospital/profile" element={<HospitalProfile />} />
+                <Route path="/incidents" element={<Incidents />} />
 
             </Routes>
         </BrowserRouter>

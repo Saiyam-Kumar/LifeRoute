@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import usePrediction from "../../hooks/usePrediction";
 import { motion } from "framer-motion";
+import { generateIncidentBrief } from "../../utils/generateIncidentBrief";
+import IncidentChecklist from "../incident/IncidentChecklist";
 import {
     ArrowLeft,
     Building2,
@@ -223,8 +225,8 @@ export default function HospitalDetails() {
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.35, delay: i * 0.06 }}
                                     className={`flex items-center justify-between rounded-xl border px-4 py-3 ${available
-                                            ? "border-ink/[0.08] bg-canvas-dim/40"
-                                            : "border-ink/[0.08] bg-canvas-dim/20 opacity-70"
+                                        ? "border-ink/[0.08] bg-canvas-dim/40"
+                                        : "border-ink/[0.08] bg-canvas-dim/20 opacity-70"
                                         }`}
                                 >
                                     <div className="flex items-center gap-2.5">
@@ -303,22 +305,48 @@ export default function HospitalDetails() {
                 </Panel>
 
                 {/* actions */}
-                <div className="flex flex-col sm:flex-row gap-3">
+                <IncidentChecklist />
+                <div className="mt-8 flex flex-col gap-4">
+
+                    {/* Incident Management */}
                     <button
                         type="button"
-                        className="group flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-route px-8 py-4 text-[15px] font-medium text-canvas transition-all duration-300 hover:bg-[#ff6b4a] active:scale-[0.98] shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset,0_8px_24px_-8px_rgba(255,90,54,0.55)]"
+                        onClick={() => navigate("/incidents")}
+                        className="group w-full inline-flex items-center justify-center gap-2 rounded-full border border-route bg-white px-8 py-4 text-[15px] font-medium text-route transition-all duration-300 hover:bg-route hover:text-white"
                     >
-                        <Navigation size={16} strokeWidth={2.25} />
-                        Start Navigation
+                        View Incident Dashboard
                     </button>
+
+                    {/* Download PDF */}
                     <button
                         type="button"
-                        onClick={() => navigate("/patient/results")}
-                        className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 px-8 py-4 text-[15px] font-medium text-ink hover:border-ink/30 hover:bg-ink/[0.03] transition-all duration-300 active:scale-[0.98]"
+                        onClick={() => generateIncidentBrief(prediction)}
+                        className="group w-full inline-flex items-center justify-center gap-2 rounded-full bg-route px-8 py-4 text-[15px] font-medium text-canvas transition-all duration-300 hover:bg-[#ff6b4a] active:scale-[0.98] shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset,0_8px_24px_-8px_rgba(255,90,54,0.55)]"
                     >
-                        <ArrowLeft size={15} strokeWidth={2} />
-                        Back to Results
+                        📄 Download Incident Response Brief
                     </button>
+
+                    <div className="flex gap-4">
+
+                        <button
+                            type="button"
+                            className="group flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-route px-8 py-4 text-[15px] font-medium text-canvas transition-all duration-300 hover:bg-[#ff6b4a] active:scale-[0.98] shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset,0_8px_24px_-8px_rgba(255,90,54,0.55)]"
+                        >
+                            <Navigation size={16} strokeWidth={2.25} />
+                            Start Navigation
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => navigate("/patient/results")}
+                            className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 px-8 py-4 text-[15px] font-medium text-ink hover:border-ink/30 hover:bg-ink/[0.03] transition-all duration-300 active:scale-[0.98]"
+                        >
+                            <ArrowLeft size={15} strokeWidth={2} />
+                            Back to Results
+                        </button>
+
+                    </div>
+
                 </div>
             </div>
         </div>
