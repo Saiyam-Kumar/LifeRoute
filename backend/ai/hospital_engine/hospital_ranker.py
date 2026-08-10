@@ -18,6 +18,7 @@ def calculate_resource_match(patient_resources, hospital):
             matched.append(resource)
 
     score = 0
+
     if patient_resources:
         score = (len(matched) / len(patient_resources)) * 100
 
@@ -26,6 +27,7 @@ def calculate_resource_match(patient_resources, hospital):
 
 def calculate_eta_score(hospital):
     eta = hospital.get("eta", 999)
+
     return max(0, 100 - eta * 5)
 
 
@@ -50,9 +52,9 @@ def recommend_hospital(patient_resources, hospitals):
         open_score = calculate_open_score(hospital)
 
         final_score = (
-            resource_score * 0.80 +
-            eta_score * 0.15 +
-            open_score * 0.05
+            resource_score * 0.80
+            + eta_score * 0.15
+            + open_score * 0.05
         )
 
         if final_score > best_score:
@@ -60,15 +62,40 @@ def recommend_hospital(patient_resources, hospitals):
             best_score = final_score
 
             best_hospital = {
-    "hospital": hospital["name"],
-    "score": round(final_score, 2),
-    "matched_resources": matched,
-    "missing_resources": [
-        r for r in patient_resources
-        if r not in matched
-    ],
-    "eta": hospital.get("eta", None),
-    "distance_km": hospital.get("distance_km", None)
-}
+                "hospital": hospital["name"],
+                "score": round(final_score, 2),
+
+                # ---------------------------------
+                # Hospital coordinates
+                # ---------------------------------
+                "latitude": hospital.get("latitude"),
+                "longitude": hospital.get("longitude"),
+
+                # ---------------------------------
+                # Resources
+                # ---------------------------------
+                "matched_resources": matched,
+
+                "missing_resources": [
+                    r for r in patient_resources
+                    if r not in matched
+                ],
+
+                # ---------------------------------
+                # Routing information
+                # ---------------------------------
+                "eta": hospital.get("eta"),
+                "distance_km": hospital.get("distance_km"),
+
+                # ---------------------------------
+                # Optional hospital information
+                # ---------------------------------
+                "phone": hospital.get("phone"),
+                "address": hospital.get("address"),
+                "emergency_department": hospital.get(
+                    "emergency_department",
+                    "Emergency Department"
+                ),
+            }
 
     return best_hospital
