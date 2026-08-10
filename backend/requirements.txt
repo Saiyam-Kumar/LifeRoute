@@ -45,3 +45,4 @@ urllib3==2.7.0
 uvicorn==0.52.1
 joblib==1.5.2
 pandas==2.3.2
+scikit-learn==1.6.1
