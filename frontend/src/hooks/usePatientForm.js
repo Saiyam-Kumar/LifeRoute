@@ -19,12 +19,11 @@ const usePatientForm = () => {
 
   // Handle input changes
   const handleChange = (field, value) => {
-
-  setFormData((prev) => ({
-    ...prev,
-    [field]: value,
-  }));
-};
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
   // Detect user's current location
   const detectLocation = async () => {
@@ -37,41 +36,63 @@ const usePatientForm = () => {
         longitude: location.longitude,
       }));
 
-      return location; 
+      return location;
     } catch (error) {
       console.error("Location Error:", error);
+      throw error;
     }
   };
 
   // Submit assessment
-const submitForm = async () => {
-  const location = await getCurrentLocation();
+  const submitForm = async () => {
+    let location;
 
-  const updatedFormData = {
-    ...formData,
-    latitude: location.latitude,
-    longitude: location.longitude,
+    try {
+      location = await getCurrentLocation();
+    } catch (error) {
+      console.error("Location Error:", error);
+      return;
+    }
+
+    const updatedFormData = {
+      ...formData,
+      latitude: location.latitude,
+      longitude: location.longitude,
+    };
+
+    const validationErrors = validatePatientForm(updatedFormData);
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    try {
+      // Show the loading UI immediately.
+      setLoading(true);
+
+      // Move to the real loading screen.
+      navigate("/patient/loading");
+
+      // Run the actual AI + hospital prediction.
+      const result = await runPrediction(
+        updatedFormData,
+        setPrediction,
+        setLoading
+      );
+
+      // Only go to results after the real backend response arrives.
+      if (result) {
+        navigate("/patient/results");
+      }
+    } catch (error) {
+      console.error("Prediction Error:", error);
+
+      // Return to assessment if prediction fails.
+      setLoading(false);
+      navigate("/patient/assessment");
+    }
   };
-
-  const validationErrors = validatePatientForm(updatedFormData);
-
-  if (Object.keys(validationErrors).length > 0) {
-    setErrors(validationErrors);
-    return;
-  }
-
-  try {
-    await runPrediction(
-      updatedFormData,
-      setPrediction,
-      setLoading
-    );
-
-    navigate("/patient/results");
-  } catch (error) {
-    console.error("Prediction Error:", error);
-  }
-};
 
   return {
     formData,
