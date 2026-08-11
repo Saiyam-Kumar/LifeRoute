@@ -2,6 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+/* --------------------------------------------------
+   Global page background
+-------------------------------------------------- */
+
+html {
+  scroll-behavior: smooth;
+  background: #0B0D12;
+  color-scheme: dark;
+  overscroll-behavior-y: none;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #0B0D12;
+  overscroll-behavior-y: none;
+}
+
+#root {
+  min-height: 100vh;
+  background: #0B0D12;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+/* --------------------------------------------------
+   Base
+-------------------------------------------------- */
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -20,18 +52,41 @@
   }
 }
 
+
+/* --------------------------------------------------
+   Utilities
+-------------------------------------------------- */
+
 @layer utilities {
   .grid-texture {
     background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.05) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.05) 1px,
+        transparent 1px
+      );
+
     background-size: 48px 48px;
   }
 
   .grid-texture-light {
     background-image:
-      linear-gradient(to right, rgba(11, 13, 18, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(11, 13, 18, 0.05) 1px, transparent 1px);
+      linear-gradient(
+        to right,
+        rgba(11, 13, 18, 0.05) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        rgba(11, 13, 18, 0.05) 1px,
+        transparent 1px
+      );
+
     background-size: 48px 48px;
   }
 
@@ -40,11 +95,20 @@
   }
 }
 
-/* Traveling route dot — path is set per-instance via inline style (offset-path) */
+
+/* --------------------------------------------------
+   Traveling route dot
+-------------------------------------------------- */
+
 .route-dot {
   offset-rotate: 0deg;
   animation: travel 3.6s linear infinite;
 }
+
+
+/* --------------------------------------------------
+   Reduced motion
+-------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   *,

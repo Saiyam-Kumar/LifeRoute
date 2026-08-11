@@ -71,8 +71,8 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-8 border-t border-white/[0.08]">
-          <span className="text-[12.5px] text-white/35">© 2026 LifeRoute. Built for the hackathon.</span>
-          <span className="font-mono text-[11.5px] text-white/25">Made with care, under a deadline.</span>
+          <span className="text-[12.5px] text-white/35">© 2026 LifeRoute. All rights reserved.</span>
+          <span className="font-mono text-[11.5px] text-white/25">Built with ❤️ for smarter emergency response.</span>
         </div>
       </div>
     </footer>

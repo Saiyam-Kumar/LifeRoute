@@ -31,7 +31,8 @@ export default function Hero() {
               transition={{ duration: 0.6 }}
               className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 mb-8"
             >
-              <span className="h-2 w-2 rounded-full bg-route"></span>
+              <span className="h-2 w-2 rounded-full bg-route" />
+
               <span className="font-mono text-xs text-white/70">
                 Live hospital capacity, not a guess
               </span>
@@ -65,6 +66,8 @@ export default function Hero() {
               transition={{ delay: 0.25 }}
               className="flex gap-4 mt-10 flex-wrap"
             >
+
+              {/* Emergency Assessment */}
               <Button
                 variant="primary"
                 onClick={() => navigate("/patient/assessment")}
@@ -72,9 +75,16 @@ export default function Hero() {
                 Start Emergency Assessment
               </Button>
 
-              <Button variant="secondary-dark" icon={false}>
+              {/* How It Works */}
+              <Button
+                variant="secondary-dark"
+                icon={false}
+                as="a"
+                href="#how-it-works"
+              >
                 See How It Works
               </Button>
+
             </motion.div>
 
           </div>
@@ -101,32 +111,43 @@ export default function Hero() {
                   </h2>
                 </div>
 
-                <div className="h-3 w-3 rounded-full bg-green-400 animate-pulse"></div>
+                <div className="h-3 w-3 rounded-full bg-green-400 animate-pulse" />
 
               </div>
 
               <div className="space-y-6">
 
                 <div className="flex justify-between">
-                  <span className="text-white/45">Hospitals Checked</span>
-                  <span className="text-white font-semibold">18</span>
+                  <span className="text-white/45">
+                    Hospitals Checked
+                  </span>
+
+                  <span className="text-white font-semibold">
+                    18
+                  </span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-white/45">KTAS Severity</span>
+                  <span className="text-white/45">
+                    KTAS Severity
+                  </span>
+
                   <span className="text-route font-semibold">
                     Level 2 • Emergent
                   </span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-white/45">Predicted ETA</span>
+                  <span className="text-white/45">
+                    Predicted ETA
+                  </span>
+
                   <span className="text-white font-semibold">
                     11 min
                   </span>
                 </div>
 
-                <div className="border-t border-white/10"></div>
+                <div className="border-t border-white/10" />
 
                 <div>
 
@@ -181,7 +202,6 @@ export default function Hero() {
         </div>
 
       </div>
-
     </section>
   );
 }

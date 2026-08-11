@@ -2,13 +2,13 @@ export const initialPatientForm = {
 
     group: 1,
 
-    sex: 1,
+    sex: "",
 
     age: "",
 
     patients_number_per_hour: 8,
 
-    arrival_mode: 1,
+    arrival_mode: "",
 
     injury: 0,
 

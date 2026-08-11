@@ -4,22 +4,20 @@ import Footer from "../../components/common/Footer";
 import Hero from "../../components/landing/Hero";
 import ProblemSection from "../../components/landing/ProblemSection";
 import Features from "../../components/landing/Features";
-// import ProductPreview from "../../components/landing/ProductPreview";
 import HowItWorks from "../../components/landing/HowItWorks";
-
+import Team from "../../components/landing/Team";
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-canvas">
+    <div className="min-h-screen bg-[#0B0D12] text-white">
       <Navbar />
 
-      <main>
+      <main id="top">
         <Hero />
         <ProblemSection />
         <Features />
         <HowItWorks />
-
-        {/* <ProductPreview /> */}
+        <Team />
       </main>
 
       <Footer />

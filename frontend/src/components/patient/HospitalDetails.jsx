@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import usePrediction from "../../hooks/usePrediction";
 import { motion } from "framer-motion";
-import { generateIncidentBrief } from "../../utils/generateIncidentBrief";
-import IncidentChecklist from "../incident/IncidentChecklist";
 
 import {
     ArrowLeft,
@@ -43,9 +41,21 @@ const ALL_RESOURCES = [
 
 
 const fadeUp = {
-    initial: { opacity: 0, y: 16 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.3 },
+    initial: {
+        opacity: 0,
+        y: 16,
+    },
+
+    whileInView: {
+        opacity: 1,
+        y: 0,
+    },
+
+    viewport: {
+        once: true,
+        amount: 0.3,
+    },
+
     transition: {
         duration: 0.5,
         ease: [0.22, 1, 0.36, 1],
@@ -81,9 +91,9 @@ export default function HospitalDetails() {
     const { prediction } = usePrediction();
 
 
-    // --------------------------------------------------
-    // No prediction
-    // --------------------------------------------------
+    /* -------------------------------------------------------------- */
+    /* No prediction                                                   */
+    /* -------------------------------------------------------------- */
 
     if (!prediction) {
         return (
@@ -94,7 +104,8 @@ export default function HospitalDetails() {
     }
 
 
-    const hospital = prediction.recommended_hospital;
+    const hospital =
+        prediction.recommended_hospital;
 
 
     console.log("=================================");
@@ -111,9 +122,9 @@ export default function HospitalDetails() {
     );
 
 
-    // ==================================================
-    // START NAVIGATION
-    // ==================================================
+    /* ============================================================== */
+    /* NAVIGATION                                                      */
+    /* ============================================================== */
 
     const startNavigation = () => {
 
@@ -129,10 +140,6 @@ export default function HospitalDetails() {
         const latitude = hospital?.latitude;
         const longitude = hospital?.longitude;
 
-
-        // ----------------------------------------------
-        // Check hospital coordinates
-        // ----------------------------------------------
 
         if (
             latitude === null ||
@@ -153,10 +160,6 @@ export default function HospitalDetails() {
         }
 
 
-        // ----------------------------------------------
-        // Build Google Maps directions URL
-        // ----------------------------------------------
-
         const mapsUrl =
             `https://www.google.com/maps/dir/?api=1` +
             `&destination=${latitude},${longitude}` +
@@ -169,12 +172,6 @@ export default function HospitalDetails() {
         );
 
 
-        // ----------------------------------------------
-        // Navigate in the SAME TAB.
-        //
-        // This avoids popup blockers.
-        // ----------------------------------------------
-
         window.location.href = mapsUrl;
     };
 
@@ -182,13 +179,14 @@ export default function HospitalDetails() {
     return (
         <div className="min-h-screen bg-canvas pb-28">
 
-            {/* ================================================== */}
-            {/* HEADER */}
-            {/* ================================================== */}
+
+            {/* ====================================================== */}
+            {/* HEADER                                                  */}
+            {/* ====================================================== */}
 
             <header className="border-b border-ink/[0.06] bg-white">
 
-                <div className="max-w-3xl mx-auto px-6 py-5 flex items-center gap-4">
+                <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 py-5 flex items-center gap-4">
 
                     <button
                         type="button"
@@ -198,11 +196,13 @@ export default function HospitalDetails() {
                         className="flex items-center justify-center h-9 w-9 rounded-full border border-ink/10 hover:bg-ink/[0.03] transition-colors"
                         aria-label="Back to results"
                     >
+
                         <ArrowLeft
                             size={16}
                             strokeWidth={2}
                             className="text-ink"
                         />
+
                     </button>
 
 
@@ -252,10 +252,15 @@ export default function HospitalDetails() {
             </header>
 
 
-            <div className="max-w-3xl mx-auto px-6 pt-10">
+            {/* ====================================================== */}
+            {/* MAIN CONTENT                                           */}
+            {/* ====================================================== */}
+
+            <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 pt-10">
+
 
                 {/* ================================================== */}
-                {/* HERO */}
+                {/* HERO                                                 */}
                 {/* ================================================== */}
 
                 <motion.div
@@ -263,18 +268,22 @@ export default function HospitalDetails() {
                         opacity: 0,
                         y: 20,
                     }}
+
                     whileInView={{
                         opacity: 1,
                         y: 0,
                     }}
+
                     viewport={{
                         once: true,
                         amount: 0.3,
                     }}
+
                     transition={{
                         duration: 0.6,
                         ease: [0.22, 1, 0.36, 1],
                     }}
+
                     className="relative rounded-3xl border border-route/25 bg-white overflow-hidden mb-6 shadow-[0_20px_60px_-24px_rgba(11,13,18,0.16)]"
                 >
 
@@ -348,7 +357,7 @@ export default function HospitalDetails() {
                         </div>
 
 
-                        <div className="grid grid-cols-3 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
 
                             {/* SCORE */}
 
@@ -368,7 +377,7 @@ export default function HospitalDetails() {
                                 <div className="font-display font-semibold text-[18px] sm:text-[20px] text-ink tracking-tightest">
 
                                     {Number(
-                                        hospital?.score || 0
+                                        hospital?.score ?? 0
                                     ).toFixed(1)}
 
                                 </div>
@@ -433,7 +442,7 @@ export default function HospitalDetails() {
 
 
                 {/* ================================================== */}
-                {/* RESOURCES */}
+                {/* RESOURCES                                            */}
                 {/* ================================================== */}
 
                 <Panel className="mb-6">
@@ -451,6 +460,7 @@ export default function HospitalDetails() {
                                 const available =
                                     matched.has(name);
 
+
                                 const {
                                     Icon,
                                 } =
@@ -458,6 +468,7 @@ export default function HospitalDetails() {
 
 
                                 return (
+
                                     <motion.div
                                         key={name}
                                         initial={{
@@ -473,8 +484,7 @@ export default function HospitalDetails() {
                                         }}
                                         transition={{
                                             duration: 0.35,
-                                            delay:
-                                                i * 0.06,
+                                            delay: i * 0.06,
                                         }}
                                         className={`flex items-center justify-between rounded-xl border px-4 py-3 ${
                                             available
@@ -517,7 +527,9 @@ export default function HospitalDetails() {
                                         )}
 
                                     </motion.div>
+
                                 );
+
                             }
                         )}
 
@@ -527,7 +539,7 @@ export default function HospitalDetails() {
 
 
                 {/* ================================================== */}
-                {/* AI EXPLANATION */}
+                {/* AI EXPLANATION                                      */}
                 {/* ================================================== */}
 
                 <Panel className="mb-6">
@@ -570,8 +582,7 @@ export default function HospitalDetails() {
                                     }}
                                     transition={{
                                         duration: 0.4,
-                                        delay:
-                                            i * 0.08,
+                                        delay: i * 0.08,
                                         ease: [
                                             0.22,
                                             1,
@@ -610,7 +621,7 @@ export default function HospitalDetails() {
 
 
                 {/* ================================================== */}
-                {/* CONTACT */}
+                {/* CONTACT                                              */}
                 {/* ================================================== */}
 
                 <Panel className="mb-8">
@@ -650,7 +661,6 @@ export default function HospitalDetails() {
                                 >
                                     Call
                                 </a>
-
                             )}
 
                         </div>
@@ -697,84 +707,48 @@ export default function HospitalDetails() {
 
 
                 {/* ================================================== */}
-                {/* ACTIONS */}
+                {/* ACTIONS                                              */}
                 {/* ================================================== */}
 
-                <IncidentChecklist />
-
-
-                <div className="mt-8 flex flex-col gap-4">
-
-                    {/* INCIDENT DASHBOARD */}
+                <div className="mt-8 flex flex-col sm:flex-row gap-4">
 
                     <button
                         type="button"
-                        onClick={() =>
-                            navigate("/incidents")
-                        }
-                        className="group w-full inline-flex items-center justify-center gap-2 rounded-full border border-route bg-white px-8 py-4 text-[15px] font-medium text-route transition-all duration-300 hover:bg-route hover:text-white"
+                        onClick={startNavigation}
+                        className="group flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-route px-8 py-4 text-[15px] font-medium text-canvas transition-all duration-300 hover:bg-[#ff6b4a] active:scale-[0.98] shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset,0_8px_24px_-8px_rgba(255,90,54,0.55)]"
                     >
-                        View Incident Dashboard
+
+                        <Navigation
+                            size={16}
+                            strokeWidth={2.25}
+                        />
+
+                        Start Navigation
+
                     </button>
 
 
-                    {/* DOWNLOAD PDF */}
-
                     <button
                         type="button"
                         onClick={() =>
-                            generateIncidentBrief(
-                                prediction
+                            navigate(
+                                "/patient/results"
                             )
                         }
-                        className="group w-full inline-flex items-center justify-center gap-2 rounded-full bg-route px-8 py-4 text-[15px] font-medium text-canvas transition-all duration-300 hover:bg-[#ff6b4a] active:scale-[0.98] shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset,0_8px_24px_-8px_rgba(255,90,54,0.55)]"
+                        className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 px-8 py-4 text-[15px] font-medium text-ink hover:border-ink/30 hover:bg-ink/[0.03] transition-all duration-300 active:scale-[0.98]"
                     >
-                        📄 Download Incident Response Brief
+
+                        <ArrowLeft
+                            size={15}
+                            strokeWidth={2}
+                        />
+
+                        Back to Results
+
                     </button>
 
-
-                    {/* NAVIGATION */}
-
-                    <div className="flex gap-4">
-
-                        <button
-                            type="button"
-                            onClick={startNavigation}
-                            className="group flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-route px-8 py-4 text-[15px] font-medium text-canvas transition-all duration-300 hover:bg-[#ff6b4a] active:scale-[0.98] shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset,0_8px_24px_-8px_rgba(255,90,54,0.55)]"
-                        >
-
-                            <Navigation
-                                size={16}
-                                strokeWidth={2.25}
-                            />
-
-                            Start Navigation
-
-                        </button>
-
-
-                        <button
-                            type="button"
-                            onClick={() =>
-                                navigate(
-                                    "/patient/results"
-                                )
-                            }
-                            className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 px-8 py-4 text-[15px] font-medium text-ink hover:border-ink/30 hover:bg-ink/[0.03] transition-all duration-300 active:scale-[0.98]"
-                        >
-
-                            <ArrowLeft
-                                size={15}
-                                strokeWidth={2}
-                            />
-
-                            Back to Results
-
-                        </button>
-
-                    </div>
-
                 </div>
+
 
             </div>
 
