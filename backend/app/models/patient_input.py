@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -12,12 +14,18 @@ class PatientInput(BaseModel):
     mental: int
     pain: int
     nrs_pain: int
-    sbp: float
-    dbp: float
-    hr: float
-    rr: float
-    bt: float
-    saturation: float
+
+    # Vitals can be missing when the patient
+    # does not have measured vital signs.
+    sbp: Optional[float] = None
+    dbp: Optional[float] = None
+    hr: Optional[float] = None
+    rr: Optional[float] = None
+    bt: Optional[float] = None
+    saturation: Optional[float] = None
+
+    # 0 = measured saturation/vitals available
+    # 1 = vitals not available
     saturation_missing: int
 
     latitude: float

@@ -25,47 +25,99 @@ def predict_resources(patient):
     # ----------------------------
     # Chief Complaint
     # ----------------------------
-    complaint = patient["chief_complain"].lower()
 
+    complaint = patient["chief_complain"].strip().lower()
+
+    # First try an exact match.
     category = MEDICAL_CATEGORIES.get(complaint)
 
+    # If exact match is not found, look for a known
+    # complaint phrase inside the user's text.
+    if category is None:
+        matches = []
+
+        for phrase, phrase_category in MEDICAL_CATEGORIES.items():
+            if phrase in complaint:
+                matches.append(
+                    (len(phrase), phrase_category)
+                )
+
+        # Prefer the longest matching phrase.
+        if matches:
+            matches.sort(reverse=True)
+            category = matches[0][1]
+
     if category:
-        resources.update(CATEGORY_RESOURCES[category])
-        reasons.append(f"Chief complaint belongs to {category}")
+        resources.update(
+            CATEGORY_RESOURCES[category]
+        )
+
+        reasons.append(
+            f"Chief complaint belongs to {category}"
+        )
     else:
-        reasons.append("Chief complaint not found in knowledge base")
+        reasons.append(
+            "Chief complaint not found in knowledge base"
+        )
 
     # ----------------------------
     # Vital Signs
     # ----------------------------
+
     vital_resources = get_vital_resources(patient)
     resources.update(vital_resources)
 
-    if patient["saturation"] < 90:
-        reasons.append("Low SpO₂ (<90%) → Oxygen support required")
+    # Vitals may be None when the patient
+    # does not have measured vital signs.
+    saturation = patient.get("saturation")
+    sbp = patient.get("sbp")
+    hr = patient.get("hr")
+    rr = patient.get("rr")
 
-    if patient["sbp"] < 90:
-        reasons.append("Low systolic blood pressure (<90 mmHg) → ICU evaluation")
+    # Low oxygen
+    if saturation is not None and saturation < 90:
+        reasons.append(
+            "Low SpO₂ (<90%) → Oxygen support required"
+        )
 
-    if patient["hr"] > 120:
-        reasons.append("High heart rate (>120 bpm) → Cardiac monitoring")
+    # Low systolic blood pressure
+    if sbp is not None and sbp < 90:
+        reasons.append(
+            "Low systolic blood pressure (<90 mmHg) → ICU evaluation"
+        )
 
-    if patient["rr"] > 24:
-        reasons.append("Rapid breathing (>24 breaths/min) → Emergency physician required")
+    # High heart rate
+    if hr is not None and hr > 120:
+        reasons.append(
+            "High heart rate (>120 bpm) → Cardiac monitoring"
+        )
+
+    # Rapid breathing
+    if rr is not None and rr > 24:
+        reasons.append(
+            "Rapid breathing (>24 breaths/min) → Emergency physician required"
+        )
 
     # ----------------------------
     # KTAS Rules
     # ----------------------------
-    ktas_resources = get_ktas_resources(patient["ktas"])
+
+    ktas_resources = get_ktas_resources(
+        patient["ktas"]
+    )
+
     resources.update(ktas_resources)
 
-    reasons.append(f"KTAS Level {patient['ktas']} considered")
+    reasons.append(
+        f"KTAS Level {patient['ktas']} considered"
+    )
 
     # ----------------------------
     # Final Output
     # ----------------------------
+
     return {
         "category": category,
         "resources": sorted(resources),
-        "reasons": reasons
+        "reasons": reasons,
     }
