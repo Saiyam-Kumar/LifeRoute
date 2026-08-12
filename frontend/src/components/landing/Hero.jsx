@@ -3,50 +3,43 @@ import { motion } from "framer-motion";
 import Button from "../common/Button";
 import ECGBackground from "./ECGBackground";
 
-const glassPanel =
-  "relative z-20 rounded-3xl border border-white/[0.14] " +
-  "bg-[#101522]/20 backdrop-blur-xl " +
-  "shadow-[0_20px_70px_rgba(0,0,0,0.45),0_0_45px_rgba(124,140,245,0.14),0_0_55px_rgba(255,90,138,0.10)] " +
-  "overflow-hidden";
-
 export default function Hero() {
   const navigate = useNavigate();
 
   return (
     <section className="relative overflow-hidden bg-[#0B0D12] pt-36 pb-24 lg:pt-40 lg:pb-32">
-
-      {/* Background */}
+      {/* Background atmosphere */}
       <div
         className="absolute inset-0 z-0"
         style={{
           background:
-            "radial-gradient(circle at top left, rgba(74,88,180,.18), transparent 45%), radial-gradient(circle at bottom right, rgba(255,90,54,.10), transparent 40%)",
+            "radial-gradient(circle at 8% 20%, rgba(74,88,180,.14), transparent 38%), radial-gradient(circle at 88% 78%, rgba(255,90,54,.08), transparent 38%)",
         }}
       />
 
-      {/* ECG heartbeat layer — sits above the background, behind the glass panels */}
+      {/* ECG background */}
       <ECGBackground />
 
+      {/* Keeps the ECG atmospheric rather than dominant */}
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-[#0B0D12]/10" />
 
-      <div className="relative z-20 max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="relative z-20 mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="grid items-center gap-14 lg:grid-cols-[1fr_0.9fr] xl:gap-20">
+          {/* LEFT — HERO CONTENT */}
 
-        <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-10 xl:gap-14 items-center">
-
-          {/* LEFT */}
-
-          <div className={`${glassPanel} p-7 md:p-8 max-w-2xl`}>
-            {/* subtle internal gradient */}
-            <div className="pointer-events-none absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-signal/[0.07] via-transparent to-route/[0.06]" />
-
+          <div className="relative max-w-2xl">
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 mb-8"
+              transition={{
+                duration: 0.6,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-4 py-2 backdrop-blur-sm"
             >
-              <span className="h-2 w-2 rounded-full bg-route" />
+              <span className="h-2 w-2 rounded-full bg-route shadow-[0_0_12px_rgba(255,90,54,0.5)]" />
 
-              <span className="font-mono text-xs text-white/70">
+              <span className="font-mono text-xs text-white/65">
                 Live hospital capacity, not a guess
               </span>
             </motion.div>
@@ -54,19 +47,33 @@ export default function Hero() {
             <motion.h1
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.05 }}
-              className="font-display text-white/70 font-semibold leading-[1.02] tracking-tight text-[clamp(2.8rem,4.5vw,4.8rem)]"
+              transition={{
+                delay: 0.05,
+                duration: 0.6,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="font-display text-[clamp(3.2rem,5.4vw,5.7rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-white"
             >
-              The Right Care.
+              <span className="text-white">
+                The Right Care.
+              </span>
+
               <br />
-              At The Right Time.
+
+              <span className="text-white/90">
+                At The Right Time.
+              </span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
-              className="mt-6 text-white/65 text-base md:text-lg leading-7 md:leading-8 max-w-xl"
+              transition={{
+                delay: 0.15,
+                duration: 0.6,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="mt-7 max-w-xl text-base leading-8 text-white/65 md:text-lg"
             >
               LifeRoute reads your symptoms, checks live hospital capacity,
               specialist availability, and travel time before recommending
@@ -76,11 +83,13 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25 }}
-              className="flex gap-3 mt-8 flex-wrap"
+              transition={{
+                delay: 0.25,
+                duration: 0.6,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="mt-9 flex flex-wrap gap-3"
             >
-
-              {/* Emergency Assessment */}
               <Button
                 variant="primary"
                 onClick={() => navigate("/patient/assessment")}
@@ -88,7 +97,6 @@ export default function Hero() {
                 Start Emergency Assessment
               </Button>
 
-              {/* How It Works */}
               <Button
                 variant="secondary-dark"
                 icon={false}
@@ -97,125 +105,184 @@ export default function Hero() {
               >
                 See How It Works
               </Button>
-
             </motion.div>
 
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{
+                delay: 0.45,
+                duration: 0.7,
+              }}
+              className="mt-10 flex items-center gap-3 text-[12px] text-white/40"
+            >
+              <span className="h-px w-8 bg-white/15" />
+
+              <span>AI-assisted emergency routing</span>
+            </motion.div>
           </div>
 
-          {/* RIGHT */}
+          {/* RIGHT — AI RECOMMENDATION */}
 
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0, x: 35 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
+            transition={{
+              delay: 0.2,
+              duration: 0.7,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="relative lg:justify-self-end"
           >
+            {/* Ambient glow */}
+            <div className="pointer-events-none absolute -inset-8 rounded-[3rem] bg-[#4A58B4]/[0.05] blur-3xl" />
 
-            <div className={`${glassPanel} w-full max-w-lg ml-auto p-6 md:p-7`}>
+            <div
+              className="
+                relative
+                w-full
+                max-w-[560px]
+                overflow-hidden
+                rounded-[26px]
+                border border-white/[0.10]
+                bg-[#111722]/80
+                p-6
+                shadow-[0_24px_80px_rgba(0,0,0,0.38)]
+                backdrop-blur-xl
+                md:p-7
+              "
+            >
+              {/* Subtle panel lighting */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.035] via-transparent to-route/[0.025]" />
 
-              {/* subtle internal gradient */}
-              <div className="pointer-events-none absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-signal/[0.07] via-transparent to-route/[0.06]" />
-              <div className="flex justify-between items-center mb-8">
-
+              {/* Header */}
+              <div className="relative flex items-start justify-between">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.25em] text-white/35">
-                    Live Hospital Intelligence
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-green-400 shadow-[0_0_10px_rgba(74,222,128,0.5)]" />
 
-                  <h2 className="text-2xl font-semibold text-white mt-2">
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-white/35">
+                      Live Hospital Intelligence
+                    </p>
+                  </div>
+
+                  <h2 className="mt-2 text-[22px] font-semibold tracking-tight text-white">
                     AI Recommendation
                   </h2>
                 </div>
 
-                <div className="h-3 w-3 rounded-full bg-green-400 animate-pulse" />
-
+                <span className="rounded-full border border-green-400/15 bg-green-400/[0.06] px-2.5 py-1 text-[10px] font-medium text-green-300/70">
+                  LIVE
+                </span>
               </div>
 
-              <div className="space-y-6">
-
-                <div className="flex justify-between">
-                  <span className="text-white/45">
+              {/* Hospital metrics */}
+              <div className="relative mt-8 space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-white/40">
                     Hospitals Checked
                   </span>
 
-                  <span className="text-white font-semibold">
+                  <span className="font-semibold text-white">
                     18
                   </span>
                 </div>
 
-                <div className="flex justify-between">
-                  <span className="text-white/45">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-white/40">
                     KTAS Severity
                   </span>
 
-                  <span className="text-route font-semibold">
+                  <span className="text-sm font-semibold text-route">
                     Level 2 • Emergent
                   </span>
                 </div>
 
-                <div className="flex justify-between">
-                  <span className="text-white/45">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-white/40">
                     Predicted ETA
                   </span>
 
-                  <span className="text-white font-semibold">
+                  <span className="font-semibold text-white">
                     11 min
                   </span>
                 </div>
-
-                <div className="border-t border-white/10" />
-
-                <div>
-
-                  <p className="text-white/40 text-sm">
-                    Recommended Hospital
-                  </p>
-
-                  <h1 className="text-3xl font-bold text-white mt-2">
-                    Fortis Delhi
-                  </h1>
-
-                  <p className="text-route mt-2">
-                    Capacity Match • 98%
-                  </p>
-
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 pt-2">
-
-                  <div className="rounded-2xl border border-white/10 bg-white/[0.06] backdrop-blur-sm p-4 md:p-5">
-
-                    <p className="text-white/40 text-sm">
-                      ICU Beds
-                    </p>
-
-                    <h2 className="text-white text-2xl font-bold mt-2">
-                      14
-                    </h2>
-
-                  </div>
-
-                  <div className="rounded-2xl bg-white/5 p-5">
-
-                    <p className="text-white/40 text-sm">
-                      Confidence
-                    </p>
-
-                    <h2 className="text-route text-3xl font-bold mt-2">
-                      96%
-                    </h2>
-
-                  </div>
-
-                </div>
-
               </div>
 
+              {/* Divider */}
+              <div className="relative my-7 h-px bg-white/[0.08]" />
+
+              {/* Recommended hospital */}
+              <div className="relative">
+                <p className="text-xs text-white/35">
+                  Recommended Hospital
+                </p>
+
+                <div className="mt-2 flex items-end justify-between gap-4">
+                  <div>
+                    <h3 className="text-[27px] font-semibold tracking-tight text-white">
+                      PGIMER Chandigarh
+                    </h3>
+
+                    <p className="mt-1.5 text-sm text-route">
+                      Capacity Match • 98%
+                    </p>
+                  </div>
+
+                  <div className="hidden h-10 w-10 items-center justify-center rounded-full border border-route/15 bg-route/[0.06] text-route sm:flex">
+                    <span className="text-lg">
+                      ✓
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom statistics */}
+              <div className="relative mt-7 grid grid-cols-2 gap-3">
+                <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4">
+                  <p className="text-xs text-white/35">
+                    ICU Beds
+                  </p>
+
+                  <div className="mt-2 flex items-end justify-between">
+                    <span className="text-2xl font-semibold text-white">
+                      14
+                    </span>
+
+                    <span className="text-[11px] text-green-300/60">
+                      Available
+                    </span>
+                  </div>
+                </div>
+
+                <div className="rounded-2xl border border-route/[0.12] bg-route/[0.035] p-4">
+                  <p className="text-xs text-white/35">
+                    Confidence
+                  </p>
+
+                  <div className="mt-2 flex items-end justify-between">
+                    <span className="text-2xl font-semibold text-route">
+                      96%
+                    </span>
+
+                    <span className="text-[11px] text-white/30">
+                      High
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Explanation */}
+              <div className="relative mt-5 flex items-center gap-2 text-[11px] text-white/30">
+                <span className="h-1.5 w-1.5 rounded-full bg-route/80" />
+
+                <span>
+                  Recommendation based on severity, resources and travel time
+                </span>
+              </div>
             </div>
-
           </motion.div>
-
         </div>
-
       </div>
     </section>
   );
