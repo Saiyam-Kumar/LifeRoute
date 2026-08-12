@@ -1,6 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Button from "../common/Button";
+import ECGBackground from "./ECGBackground";
+
+const glassPanel =
+  "relative z-20 rounded-3xl border border-white/[0.14] " +
+  "bg-[#101522]/20 backdrop-blur-xl " +
+  "shadow-[0_20px_70px_rgba(0,0,0,0.45),0_0_45px_rgba(124,140,245,0.14),0_0_55px_rgba(255,90,138,0.10)] " +
+  "overflow-hidden";
 
 export default function Hero() {
   const navigate = useNavigate();
@@ -10,20 +17,26 @@ export default function Hero() {
 
       {/* Background */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 z-0"
         style={{
           background:
             "radial-gradient(circle at top left, rgba(74,88,180,.18), transparent 45%), radial-gradient(circle at bottom right, rgba(255,90,54,.10), transparent 40%)",
         }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+      {/* ECG heartbeat layer — sits above the background, behind the glass panels */}
+      <ECGBackground />
 
-        <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-20 items-center">
+
+      <div className="relative z-20 max-w-7xl mx-auto px-6 lg:px-8">
+
+        <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-10 xl:gap-14 items-center">
 
           {/* LEFT */}
 
-          <div>
+          <div className={`${glassPanel} p-7 md:p-8 max-w-2xl`}>
+            {/* subtle internal gradient */}
+            <div className="pointer-events-none absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-signal/[0.07] via-transparent to-route/[0.06]" />
 
             <motion.div
               initial={{ opacity: 0, y: 15 }}
@@ -42,7 +55,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.05 }}
-              className="font-display text-white/70 font-semibold leading-[1.02] tracking-tight text-[clamp(3.5rem,6vw,5.8rem)]"
+              className="font-display text-white/70 font-semibold leading-[1.02] tracking-tight text-[clamp(2.8rem,4.5vw,4.8rem)]"
             >
               The Right Care.
               <br />
@@ -53,7 +66,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
-              className="mt-8 text-white/65 text-lg leading-9 max-w-2xl"
+              className="mt-6 text-white/65 text-base md:text-lg leading-7 md:leading-8 max-w-xl"
             >
               LifeRoute reads your symptoms, checks live hospital capacity,
               specialist availability, and travel time before recommending
@@ -64,7 +77,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25 }}
-              className="flex gap-4 mt-10 flex-wrap"
+              className="flex gap-3 mt-8 flex-wrap"
             >
 
               {/* Emergency Assessment */}
@@ -97,8 +110,10 @@ export default function Hero() {
             transition={{ delay: 0.2 }}
           >
 
-            <div className="max-w-xl ml-auto rounded-3xl border border-white/10 bg-[#171C25]/90 backdrop-blur-xl p-7 shadow-[0_20px_70px_rgba(0,0,0,0.45)]">
+            <div className={`${glassPanel} w-full max-w-lg ml-auto p-6 md:p-7`}>
 
+              {/* subtle internal gradient */}
+              <div className="pointer-events-none absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-signal/[0.07] via-transparent to-route/[0.06]" />
               <div className="flex justify-between items-center mb-8">
 
                 <div>
@@ -167,7 +182,7 @@ export default function Hero() {
 
                 <div className="grid grid-cols-2 gap-4 pt-2">
 
-                  <div className="rounded-2xl bg-white/5 p-5">
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.06] backdrop-blur-sm p-4 md:p-5">
 
                     <p className="text-white/40 text-sm">
                       ICU Beds

@@ -29,7 +29,6 @@ body {
   box-sizing: border-box;
 }
 
-
 /* --------------------------------------------------
    Base
 -------------------------------------------------- */
@@ -44,14 +43,13 @@ body {
     color: #fafaf8;
   }
 
-  /* Visible, deliberate focus states — this is a healthcare product */
+  /* Visible, deliberate focus states */
   :focus-visible {
     outline: 2px solid #ff5a36;
     outline-offset: 3px;
     border-radius: 2px;
   }
 }
-
 
 /* --------------------------------------------------
    Utilities
@@ -95,7 +93,6 @@ body {
   }
 }
 
-
 /* --------------------------------------------------
    Traveling route dot
 -------------------------------------------------- */
@@ -104,7 +101,6 @@ body {
   offset-rotate: 0deg;
   animation: travel 3.6s linear infinite;
 }
-
 
 /* --------------------------------------------------
    Reduced motion
