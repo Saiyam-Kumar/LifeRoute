@@ -19,19 +19,23 @@ import {
 
 function Card({ icon: Icon, title, subtitle, children }) {
   return (
-    <section className="rounded-2xl border border-ink/[0.08] bg-white p-6 sm:p-8 lg:p-9">
+    <section className="rounded-2xl border border-white/[0.08] bg-[#11151D] p-6 sm:p-8 lg:p-9 shadow-[0_12px_40px_-24px_rgba(0,0,0,0.65)]">
       <div className="flex items-start gap-3.5 mb-7">
-        <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-ink/[0.04] shrink-0">
-          <Icon size={18} strokeWidth={1.75} className="text-ink" />
+        <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-white/[0.05] shrink-0">
+          <Icon
+            size={18}
+            strokeWidth={1.75}
+            className="text-white/75"
+          />
         </div>
 
         <div>
-          <h2 className="font-display font-semibold text-[17px] tracking-tightest text-ink">
+          <h2 className="font-display font-semibold text-[17px] tracking-tightest text-white">
             {title}
           </h2>
 
           {subtitle && (
-            <p className="text-[13.5px] text-ink-faint mt-0.5">
+            <p className="text-[13.5px] text-white/40 mt-0.5">
               {subtitle}
             </p>
           )}
@@ -47,12 +51,12 @@ function Field({ label, hint, children }) {
   return (
     <label className="flex flex-col gap-2">
       <span className="flex items-baseline justify-between">
-        <span className="text-[13.5px] font-medium text-ink-soft">
+        <span className="text-[13.5px] font-medium text-white/70">
           {label}
         </span>
 
         {hint && (
-          <span className="font-mono text-[11px] text-ink-faint">
+          <span className="font-mono text-[11px] text-white/30">
             {hint}
           </span>
         )}
@@ -64,7 +68,7 @@ function Field({ label, hint, children }) {
 }
 
 const inputClass =
-  "w-full rounded-xl border border-ink/[0.1] bg-canvas-dim/40 px-4 py-3 text-[14.5px] text-ink placeholder:text-ink-faint outline-none transition-colors focus:border-route/50 focus:bg-white";
+  "w-full rounded-xl border border-white/[0.1] bg-white/[0.035] px-4 py-3 text-[14.5px] text-white placeholder:text-white/25 outline-none transition-all focus:border-[#FF5A36]/60 focus:bg-white/[0.055] focus:ring-1 focus:ring-[#FF5A36]/20";
 
 function Select({ value, onChange, options, placeholder }) {
   return (
@@ -73,15 +77,23 @@ function Select({ value, onChange, options, placeholder }) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={`${inputClass} appearance-none pr-10 ${
-          value ? "text-ink" : "text-ink-faint"
+          value ? "text-white" : "text-white/30"
         }`}
       >
-        <option value="" disabled>
+        <option
+          value=""
+          disabled
+          className="bg-[#11151D] text-white"
+        >
           {placeholder}
         </option>
 
         {options.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option
+            key={option.value}
+            value={option.value}
+            className="bg-[#11151D] text-white"
+          >
             {option.label}
           </option>
         ))}
@@ -90,7 +102,7 @@ function Select({ value, onChange, options, placeholder }) {
       <ChevronDown
         size={16}
         strokeWidth={1.75}
-        className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-ink-faint"
+        className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-white/30"
       />
     </div>
   );
@@ -119,8 +131,8 @@ function SegmentedControl({
             onClick={() => onChange(option.value)}
             className={`rounded-xl border px-3 py-3 text-[13.5px] font-medium transition-all duration-200 ${
               active
-                ? "border-route bg-route/[0.08] text-route ring-1 ring-route/20"
-                : "border-ink/[0.1] bg-canvas-dim/40 text-ink-soft hover:border-ink/20 hover:bg-white"
+                ? "border-[#FF5A36]/50 bg-[#FF5A36]/[0.12] text-[#FF7A5C] ring-1 ring-[#FF5A36]/20"
+                : "border-white/[0.1] bg-white/[0.035] text-white/55 hover:border-white/20 hover:bg-white/[0.055] hover:text-white/75"
             }`}
           >
             {option.label}
@@ -367,13 +379,13 @@ export default function Assessment() {
   };
 
   return (
-    <div className="min-h-screen bg-canvas pb-28">
+    <div className="min-h-screen bg-[#0B0D12] pb-28 text-white">
 
       {/* ========================================================== */}
       {/* HEADER                                                     */}
       {/* ========================================================== */}
 
-      <header className="border-b border-ink/[0.06] bg-white">
+      <header className="border-b border-white/[0.08] bg-[#0D1016]">
 
         <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 py-5 flex items-center gap-2.5">
 
@@ -388,7 +400,7 @@ export default function Assessment() {
               cx="4"
               cy="21"
               r="2.5"
-              fill="#0B0D12"
+              fill="#FFFFFF"
             />
 
             <circle
@@ -400,18 +412,18 @@ export default function Assessment() {
 
             <path
               d="M5.5 19.5C11 12 13 12 20 6.5"
-              stroke="#0B0D12"
+              stroke="#FFFFFF"
               strokeWidth="1.6"
               strokeLinecap="round"
               strokeDasharray="1 4.2"
             />
           </svg>
 
-          <span className="font-display font-semibold text-[16px] text-ink tracking-tightest">
+          <span className="font-display font-semibold text-[16px] text-white tracking-tightest">
             LifeRoute
           </span>
 
-          <span className="ml-2 font-mono text-[11.5px] uppercase tracking-wide text-ink-faint">
+          <span className="ml-2 font-mono text-[11.5px] uppercase tracking-wide text-white/30">
             Patient Assessment
           </span>
 
@@ -423,7 +435,7 @@ export default function Assessment() {
       {/* PROGRESS                                                   */}
       {/* ========================================================== */}
 
-      <div className="sticky top-0 z-40 bg-canvas/90 backdrop-blur-md border-b border-ink/[0.06]">
+      <div className="sticky top-0 z-40 bg-[#0B0D12]/90 backdrop-blur-md border-b border-white/[0.07]">
 
         <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 py-5">
 
@@ -444,8 +456,8 @@ export default function Assessment() {
                     <span
                       className={`flex items-center justify-center h-6 w-6 rounded-full border font-mono text-[11px] shrink-0 ${
                         active
-                          ? "border-route bg-route text-canvas"
-                          : "border-ink/15 text-ink-faint"
+                          ? "border-[#FF5A36] bg-[#FF5A36] text-white"
+                          : "border-white/15 text-white/30"
                       }`}
                     >
                       {index + 1}
@@ -454,8 +466,8 @@ export default function Assessment() {
                     <span
                       className={`text-[13px] font-medium hidden sm:inline whitespace-nowrap ${
                         active
-                          ? "text-ink"
-                          : "text-ink-faint"
+                          ? "text-white"
+                          : "text-white/30"
                       }`}
                     >
                       {step}
@@ -464,7 +476,7 @@ export default function Assessment() {
                   </div>
 
                   {index < STEPS.length - 1 && (
-                    <span className="flex-1 h-px bg-ink/10 mx-3" />
+                    <span className="flex-1 h-px bg-white/10 mx-3" />
                   )}
 
                 </div>
@@ -489,19 +501,19 @@ export default function Assessment() {
 
           <div className="flex items-center gap-2.5 mb-3">
 
-            <span className="h-1.5 w-1.5 rounded-full bg-route animate-pulse-soft" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#FF5A36] animate-pulse-soft" />
 
-            <span className="font-mono text-[12px] uppercase tracking-[0.14em] text-ink-faint">
+            <span className="font-mono text-[12px] uppercase tracking-[0.14em] text-white/35">
               Emergency Assessment
             </span>
 
           </div>
 
-          <h1 className="font-display font-semibold text-[clamp(1.6rem,3vw,2.1rem)] tracking-tightest text-ink text-balance">
+          <h1 className="font-display font-semibold text-[clamp(1.6rem,3vw,2.1rem)] tracking-tightest text-white text-balance">
             Tell us what's happening.
           </h1>
 
-          <p className="text-[15px] text-ink-soft mt-2 max-w-lg">
+          <p className="text-[15px] text-white/45 mt-2 max-w-lg">
             A few details help LifeRoute route you accurately.
             Only provide information you know.
           </p>
@@ -575,11 +587,11 @@ export default function Assessment() {
 
               <div className="mb-3">
 
-                <h3 className="text-[14px] font-medium text-ink-soft">
+                <h3 className="text-[14px] font-medium text-white/70">
                   How is the patient arriving?
                 </h3>
 
-                <p className="text-[12.5px] text-ink-faint mt-1">
+                <p className="text-[12.5px] text-white/30 mt-1">
                   This helps us tailor the assessment to the situation.
                 </p>
 
@@ -598,8 +610,8 @@ export default function Assessment() {
                   }
                   className={`text-left rounded-2xl border p-5 transition-all duration-200 ${
                     isSelfArrival
-                      ? "border-route bg-route/[0.08] ring-1 ring-route/20"
-                      : "border-ink/[0.1] bg-canvas-dim/40 hover:border-ink/20"
+                      ? "border-[#FF5A36]/50 bg-[#FF5A36]/[0.10] ring-1 ring-[#FF5A36]/20"
+                      : "border-white/[0.1] bg-white/[0.035] hover:border-white/20 hover:bg-white/[0.055]"
                   }`}
                 >
 
@@ -608,8 +620,8 @@ export default function Assessment() {
                     <div
                       className={`flex items-center justify-center h-11 w-11 rounded-xl ${
                         isSelfArrival
-                          ? "bg-route text-canvas"
-                          : "bg-white text-ink"
+                          ? "bg-[#FF5A36] text-white"
+                          : "bg-white/[0.06] text-white/60"
                       }`}
                     >
                       <Car
@@ -620,11 +632,11 @@ export default function Assessment() {
 
                     <div>
 
-                      <div className="font-display font-semibold text-[15px] text-ink">
+                      <div className="font-display font-semibold text-[15px] text-white">
                         Self-arrival
                       </div>
 
-                      <div className="text-[12.5px] text-ink-faint mt-0.5">
+                      <div className="text-[12.5px] text-white/30 mt-0.5">
                         Family, friends, or personal transport
                       </div>
 
@@ -645,8 +657,8 @@ export default function Assessment() {
                   }
                   className={`text-left rounded-2xl border p-5 transition-all duration-200 ${
                     isAmbulance
-                      ? "border-route bg-route/[0.08] ring-1 ring-route/20"
-                      : "border-ink/[0.1] bg-canvas-dim/40 hover:border-ink/20"
+                      ? "border-[#FF5A36]/50 bg-[#FF5A36]/[0.10] ring-1 ring-[#FF5A36]/20"
+                      : "border-white/[0.1] bg-white/[0.035] hover:border-white/20 hover:bg-white/[0.055]"
                   }`}
                 >
 
@@ -655,8 +667,8 @@ export default function Assessment() {
                     <div
                       className={`flex items-center justify-center h-11 w-11 rounded-xl ${
                         isAmbulance
-                          ? "bg-route text-canvas"
-                          : "bg-white text-ink"
+                          ? "bg-[#FF5A36] text-white"
+                          : "bg-white/[0.06] text-white/60"
                       }`}
                     >
                       <Ambulance
@@ -667,11 +679,11 @@ export default function Assessment() {
 
                     <div>
 
-                      <div className="font-display font-semibold text-[15px] text-ink">
+                      <div className="font-display font-semibold text-[15px] text-white">
                         Ambulance
                       </div>
 
-                      <div className="text-[12.5px] text-ink-faint mt-0.5">
+                      <div className="text-[12.5px] text-white/30 mt-0.5">
                         Being transported by emergency services
                       </div>
 
@@ -761,10 +773,10 @@ export default function Assessment() {
                       aria-label={`Pain level ${number}`}
                       className={`flex-1 rounded-lg py-2.5 text-[12px] font-mono transition-all duration-150 ${
                         number === pain
-                          ? "bg-route text-canvas"
+                          ? "bg-[#FF5A36] text-white"
                           : number < pain
-                            ? "bg-route/15 text-route"
-                            : "bg-ink/[0.05] text-ink-faint hover:bg-ink/[0.08]"
+                            ? "bg-[#FF5A36]/15 text-[#FF7A5C]"
+                            : "bg-white/[0.05] text-white/30 hover:bg-white/[0.08] hover:text-white/50"
                       }`}
                     >
                       {number}
@@ -828,15 +840,15 @@ export default function Assessment() {
 
             {isSelfArrival && !hasVitals && (
 
-              <div className="rounded-2xl border border-ink/[0.08] bg-canvas-dim/40 p-5">
+              <div className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-5">
 
                 <div className="mb-4">
 
-                  <h3 className="font-display font-semibold text-[15px] text-ink">
+                  <h3 className="font-display font-semibold text-[15px] text-white">
                     Do you have measured vital signs?
                   </h3>
 
-                  <p className="text-[13px] text-ink-faint mt-1">
+                  <p className="text-[13px] text-white/35 mt-1">
                     If you don't have them, that's okay. LifeRoute
                     can continue using the information you know.
                   </p>
@@ -860,15 +872,15 @@ export default function Assessment() {
                     }}
                     className={`rounded-xl border px-4 py-3 text-[13.5px] font-medium transition-all duration-200 ${
                       hasVitals
-                        ? "border-route bg-route/[0.08] text-route ring-1 ring-route/20"
-                        : "border-ink/[0.1] bg-white text-ink-soft hover:border-route/40"
+                        ? "border-[#FF5A36]/50 bg-[#FF5A36]/[0.08] text-[#FF7A5C] ring-1 ring-[#FF5A36]/20"
+                        : "border-white/[0.1] bg-white/[0.035] text-white/65 hover:border-[#FF5A36]/40 hover:bg-white/[0.05]"
                     }`}
                   >
 
                     <span className="flex items-center justify-center gap-2">
 
                       {hasVitals && (
-                        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-route text-white text-[10px]">
+                        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#FF5A36] text-white text-[10px]">
                           ✓
                         </span>
                       )}
@@ -896,15 +908,15 @@ export default function Assessment() {
                     }}
                     className={`rounded-xl border px-4 py-3 text-[13.5px] font-medium transition-all duration-200 ${
                       !hasVitals
-                        ? "border-route bg-route/[0.08] text-route ring-1 ring-route/20"
-                        : "border-ink/[0.1] bg-white text-ink-soft hover:border-route/40"
+                        ? "border-[#FF5A36]/50 bg-[#FF5A36]/[0.08] text-[#FF7A5C] ring-1 ring-[#FF5A36]/20"
+                        : "border-white/[0.1] bg-white/[0.035] text-white/65 hover:border-[#FF5A36]/40 hover:bg-white/[0.05]"
                     }`}
                   >
 
                     <span className="flex items-center justify-center gap-2">
 
                       {!hasVitals && (
-                        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-route text-white text-[10px]">
+                        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#FF5A36] text-white text-[10px]">
                           ✓
                         </span>
                       )}
@@ -923,9 +935,9 @@ export default function Assessment() {
 
             {isSelfArrival && !hasVitals && (
 
-              <div className="mt-4 rounded-xl border border-route/20 bg-route/[0.04] px-4 py-3">
+              <div className="mt-4 rounded-xl border border-[#FF5A36]/20 bg-[#FF5A36]/[0.04] px-4 py-3">
 
-                <p className="text-[13px] text-ink-soft">
+                <p className="text-[13px] text-white/45">
                   No problem. You can continue without measured
                   vital signs.
                 </p>
@@ -940,9 +952,9 @@ export default function Assessment() {
 
                 {isSelfArrival && hasVitals && (
 
-                  <div className="flex items-center justify-between rounded-xl border border-route/20 bg-route/[0.04] px-4 py-3">
+                  <div className="flex items-center justify-between rounded-xl border border-[#FF5A36]/20 bg-[#FF5A36]/[0.04] px-4 py-3">
 
-                    <p className="text-[13px] text-ink-soft">
+                    <p className="text-[13px] text-white/45">
                       Measured vital signs
                     </p>
 
@@ -959,7 +971,7 @@ export default function Assessment() {
                           1
                         );
                       }}
-                      className="text-[12px] font-medium text-route hover:underline"
+                      className="text-[12px] font-medium text-[#FF7A5C] hover:text-[#FF8B70] hover:underline"
                     >
                       Remove
                     </button>
@@ -982,7 +994,7 @@ export default function Assessment() {
                       <Activity
                         size={15}
                         strokeWidth={1.75}
-                        className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-faint"
+                        className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30"
                       />
 
                       <input
@@ -1040,7 +1052,7 @@ export default function Assessment() {
                       <Thermometer
                         size={15}
                         strokeWidth={1.75}
-                        className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-faint"
+                        className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30"
                       />
 
                       <input
@@ -1091,7 +1103,7 @@ export default function Assessment() {
                         className={inputClass}
                       />
 
-                      <span className="text-ink-faint font-mono text-[13px]">
+                      <span className="text-white/30 font-mono text-[13px]">
                         /
                       </span>
 
@@ -1162,7 +1174,7 @@ export default function Assessment() {
 
               {/* Injury */}
 
-              <label className="flex items-center gap-3 rounded-xl border border-ink/[0.1] bg-canvas-dim/40 px-4 py-3.5 cursor-pointer">
+              <label className="flex items-center gap-3 rounded-xl border border-white/[0.1] bg-white/[0.035] px-4 py-3.5 cursor-pointer hover:bg-white/[0.05] transition-colors">
 
                 <input
                   type="checkbox"
@@ -1179,10 +1191,10 @@ export default function Assessment() {
                       checked ? 2 : 1
                     );
                   }}
-                  className="h-4.5 w-4.5 rounded-md border-ink/20 text-route accent-[#FF5A36]"
+                  className="h-4.5 w-4.5 rounded-md border-white/20 text-[#FF5A36] accent-[#FF5A36]"
                 />
 
-                <span className="text-[14.5px] font-medium text-ink">
+                <span className="text-[14.5px] font-medium text-white/70">
                   Visible injury or trauma involved
                 </span>
 
@@ -1239,7 +1251,7 @@ export default function Assessment() {
           <button
             type="button"
             onClick={handleSubmit}
-            className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-route px-8 py-4 text-[15px] font-medium text-canvas transition-all duration-300 hover:bg-[#ff6b4a] active:scale-[0.98] shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset,0_8px_24px_-8px_rgba(255,90,54,0.55)]"
+            className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-[#FF5A36] px-8 py-4 text-[15px] font-medium text-white transition-all duration-300 hover:bg-[#FF6B4A] active:scale-[0.98] shadow-[0_8px_24px_-8px_rgba(255,90,54,0.55)]"
           >
             Continue Assessment
 
@@ -1251,7 +1263,7 @@ export default function Assessment() {
 
           </button>
 
-          <p className="text-[12.5px] text-ink-faint text-center sm:text-left">
+          <p className="text-[12.5px] text-white/30 text-center sm:text-left">
             LifeRoute recommends where to go. It does not diagnose or treat.
           </p>
 

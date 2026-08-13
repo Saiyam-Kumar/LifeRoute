@@ -65,7 +65,7 @@ const fadeUp = {
 
 function SectionLabel({ children }) {
     return (
-        <span className="font-mono text-[11px] uppercase tracking-wide text-ink-faint block mb-3">
+        <span className="font-mono text-[11px] uppercase tracking-wide text-white/30 block mb-3">
             {children}
         </span>
     );
@@ -76,7 +76,7 @@ function Panel({ children, className = "" }) {
     return (
         <motion.section
             {...fadeUp}
-            className={`rounded-2xl border border-ink/[0.08] bg-white p-6 sm:p-8 ${className}`}
+            className={`rounded-2xl border border-white/[0.08] bg-[#11151D] p-6 sm:p-8 ${className}`}
         >
             {children}
         </motion.section>
@@ -97,8 +97,8 @@ export default function HospitalDetails() {
 
     if (!prediction) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-canvas">
-                <p className="text-ink-soft">
+            <div className="min-h-screen flex items-center justify-center bg-[#0B0D12]">
+                <p className="text-white/50">
                     No hospital recommendation available.
                 </p>
             </div>
@@ -215,14 +215,14 @@ export default function HospitalDetails() {
 
 
     return (
-        <div className="min-h-screen bg-canvas pb-28">
+        <div className="min-h-screen bg-[#0B0D12] pb-28">
 
 
             {/* ====================================================== */}
             {/* HEADER                                                  */}
             {/* ====================================================== */}
 
-            <header className="border-b border-ink/[0.06] bg-white">
+            <header className="border-b border-white/[0.08] bg-[#0D1016]">
 
                 <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 py-5 flex items-center gap-4">
 
@@ -231,14 +231,14 @@ export default function HospitalDetails() {
                         onClick={() =>
                             navigate("/patient/results")
                         }
-                        className="flex items-center justify-center h-9 w-9 rounded-full border border-ink/10 hover:bg-ink/[0.03] transition-colors"
+                        className="flex items-center justify-center h-9 w-9 rounded-full border border-white/10 hover:bg-white/[0.05] transition-colors"
                         aria-label="Back to results"
                     >
 
                         <ArrowLeft
                             size={16}
                             strokeWidth={2}
-                            className="text-ink"
+                            className="text-white/70"
                         />
 
                     </button>
@@ -258,7 +258,7 @@ export default function HospitalDetails() {
                                 cx="4"
                                 cy="21"
                                 r="2.5"
-                                fill="#0B0D12"
+                                fill="#FFFFFF"
                             />
 
                             <circle
@@ -270,7 +270,7 @@ export default function HospitalDetails() {
 
                             <path
                                 d="M5.5 19.5C11 12 13 12 20 6.5"
-                                stroke="#0B0D12"
+                                stroke="#FFFFFF"
                                 strokeWidth="1.6"
                                 strokeLinecap="round"
                                 strokeDasharray="1 4.2"
@@ -279,7 +279,7 @@ export default function HospitalDetails() {
                         </svg>
 
 
-                        <span className="font-mono text-[11.5px] uppercase tracking-wide text-ink-faint">
+                        <span className="font-mono text-[11.5px] uppercase tracking-wide text-white/30">
                             Hospital Details
                         </span>
 
@@ -322,7 +322,7 @@ export default function HospitalDetails() {
                         ease: [0.22, 1, 0.36, 1],
                     }}
 
-                    className="relative rounded-3xl border border-route/25 bg-white overflow-hidden mb-6 shadow-[0_20px_60px_-24px_rgba(11,13,18,0.16)]"
+                    className="relative rounded-3xl border border-[#FF5A36]/25 bg-[#11151D] overflow-hidden mb-6 shadow-[0_20px_60px_-24px_rgba(0,0,0,0.65)]"
                 >
 
                     <svg
@@ -344,7 +344,7 @@ export default function HospitalDetails() {
 
                     <div className="relative px-6 sm:px-8 pt-6">
 
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-route/10 text-route px-3 py-1 text-[12px] font-medium">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FF5A36]/10 text-[#FF7A5C] px-3 py-1 text-[12px] font-medium">
 
                             <ShieldCheck
                                 size={12}
@@ -362,12 +362,12 @@ export default function HospitalDetails() {
 
                         <div className="flex items-start gap-3.5 mb-6">
 
-                            <div className="flex items-center justify-center h-12 w-12 rounded-xl bg-signal/10 border border-signal/25 shrink-0">
+                            <div className="flex items-center justify-center h-12 w-12 rounded-xl bg-[#FF5A36]/10 border border-[#FF5A36]/25 shrink-0">
 
                                 <Building2
                                     size={20}
                                     strokeWidth={1.75}
-                                    className="text-signal"
+                                    className="text-[#FF7A5C]"
                                 />
 
                             </div>
@@ -375,14 +375,14 @@ export default function HospitalDetails() {
 
                             <div>
 
-                                <h1 className="font-display font-semibold text-[20px] sm:text-[22px] text-ink tracking-tightest leading-tight">
+                                <h1 className="font-display font-semibold text-[20px] sm:text-[22px] text-white tracking-tightest leading-tight">
 
                                     {hospitalName}
 
                                 </h1>
 
 
-                                <p className="text-[13.5px] text-ink-faint mt-0.5">
+                                <p className="text-[13.5px] text-white/30 mt-0.5">
 
                                     {emergencyDepartment}
 
@@ -397,9 +397,9 @@ export default function HospitalDetails() {
 
                             {/* SCORE */}
 
-                            <div className="rounded-xl border border-route/20 bg-route/[0.06] p-4">
+                            <div className="rounded-xl border border-[#FF5A36]/20 bg-[#FF5A36]/[0.06] p-4">
 
-                                <div className="flex items-center gap-1.5 text-route/80 mb-1.5">
+                                <div className="flex items-center gap-1.5 text-[#FF7A5C] mb-1.5">
 
                                     <Activity size={13} />
 
@@ -410,7 +410,7 @@ export default function HospitalDetails() {
                                 </div>
 
 
-                                <div className="font-display font-semibold text-[18px] sm:text-[20px] text-ink tracking-tightest">
+                                <div className="font-display font-semibold text-[18px] sm:text-[20px] text-white tracking-tightest">
 
                                     {Number(
                                         hospital?.score ?? 0
@@ -423,9 +423,9 @@ export default function HospitalDetails() {
 
                             {/* ETA */}
 
-                            <div className="rounded-xl border border-ink/[0.08] bg-canvas-dim/40 p-4">
+                            <div className="rounded-xl border border-white/[0.08] bg-white/[0.025] p-4">
 
-                                <div className="flex items-center gap-1.5 text-ink-faint mb-1.5">
+                                <div className="flex items-center gap-1.5 text-white/30 mb-1.5">
 
                                     <Clock3 size={13} />
 
@@ -436,7 +436,7 @@ export default function HospitalDetails() {
                                 </div>
 
 
-                                <div className="font-display font-semibold text-[18px] sm:text-[20px] text-ink tracking-tightest">
+                                <div className="font-display font-semibold text-[18px] sm:text-[20px] text-white tracking-tightest">
 
                                     {hospital?.eta ?? "N/A"} min
 
@@ -447,9 +447,9 @@ export default function HospitalDetails() {
 
                             {/* DISTANCE */}
 
-                            <div className="rounded-xl border border-ink/[0.08] bg-canvas-dim/40 p-4">
+                            <div className="rounded-xl border border-white/[0.08] bg-white/[0.025] p-4">
 
-                                <div className="flex items-center gap-1.5 text-ink-faint mb-1.5">
+                                <div className="flex items-center gap-1.5 text-white/30 mb-1.5">
 
                                     <MapPin size={13} />
 
@@ -460,7 +460,7 @@ export default function HospitalDetails() {
                                 </div>
 
 
-                                <div className="font-display font-semibold text-[18px] sm:text-[20px] text-ink tracking-tightest">
+                                <div className="font-display font-semibold text-[18px] sm:text-[20px] text-white tracking-tightest">
 
                                     {hospital?.distance_km != null
                                         ? `${hospital.distance_km} km`
@@ -524,8 +524,8 @@ export default function HospitalDetails() {
                                         }}
                                         className={`flex items-center justify-between rounded-xl border px-4 py-3 ${
                                             available
-                                                ? "border-ink/[0.08] bg-canvas-dim/40"
-                                                : "border-ink/[0.08] bg-canvas-dim/20 opacity-70"
+                                                ? "border-white/[0.08] bg-white/[0.025]"
+                                                : "border-white/[0.08] bg-white/[0.015] opacity-70"
                                         }`}
                                     >
 
@@ -534,10 +534,10 @@ export default function HospitalDetails() {
                                             <Icon
                                                 size={15}
                                                 strokeWidth={1.75}
-                                                className="text-ink-faint"
+                                                className="text-white/30"
                                             />
 
-                                            <span className="text-[13.5px] text-ink-soft">
+                                            <span className="text-[13.5px] text-white/55">
                                                 {name}
                                             </span>
 
@@ -549,7 +549,7 @@ export default function HospitalDetails() {
                                             <CheckCircle2
                                                 size={16}
                                                 strokeWidth={2}
-                                                className="text-route"
+                                                className="text-[#FF5A36]"
                                             />
 
                                         ) : (
@@ -557,7 +557,7 @@ export default function HospitalDetails() {
                                             <XCircle
                                                 size={16}
                                                 strokeWidth={2}
-                                                className="text-ink-faint"
+                                                className="text-white/25"
                                             />
 
                                         )}
@@ -584,7 +584,7 @@ export default function HospitalDetails() {
 
                         <Sparkles
                             size={14}
-                            className="text-signal"
+                            className="text-[#FF7A5C]"
                             strokeWidth={2}
                         />
 
@@ -597,7 +597,7 @@ export default function HospitalDetails() {
 
                     <div className="relative flex flex-col gap-6 mt-3">
 
-                        <div className="absolute left-[15px] top-2 bottom-2 w-px bg-ink/10" />
+                        <div className="absolute left-[15px] top-2 bottom-2 w-px bg-white/[0.08]" />
 
 
                         {(prediction.reasons || []).map(
@@ -629,18 +629,18 @@ export default function HospitalDetails() {
                                     className="relative flex items-start gap-4"
                                 >
 
-                                    <div className="relative z-10 flex items-center justify-center h-8 w-8 rounded-full border border-signal/30 bg-signal/10 shrink-0">
+                                    <div className="relative z-10 flex items-center justify-center h-8 w-8 rounded-full border border-[#FF5A36]/30 bg-[#FF5A36]/10 shrink-0">
 
                                         <HeartPulse
                                             size={14}
                                             strokeWidth={1.75}
-                                            className="text-signal"
+                                            className="text-[#FF7A5C]"
                                         />
 
                                     </div>
 
 
-                                    <p className="text-[14px] leading-relaxed text-ink-soft pt-1">
+                                    <p className="text-[14px] leading-relaxed text-white/55 pt-1">
 
                                         {reason}
 
@@ -667,7 +667,7 @@ export default function HospitalDetails() {
                     </SectionLabel>
 
 
-                    <div className="rounded-xl border border-ink/[0.08] divide-y divide-ink/[0.06]">
+                    <div className="rounded-xl border border-white/[0.08] divide-y divide-white/[0.06]">
 
                         {/* PHONE */}
 
@@ -678,10 +678,10 @@ export default function HospitalDetails() {
                                 <Phone
                                     size={15}
                                     strokeWidth={1.75}
-                                    className="text-ink-faint shrink-0"
+                                    className="text-white/30 shrink-0"
                                 />
 
-                                <span className="text-[13.5px] text-ink-soft truncate">
+                                <span className="text-[13.5px] text-white/55 truncate">
 
                                     {phone || "Phone not available"}
 
@@ -694,14 +694,14 @@ export default function HospitalDetails() {
 
                                 <a
                                     href={`tel:${phone}`}
-                                    className="shrink-0 font-mono text-[12px] text-route hover:text-[#ff6b4a] transition-colors"
+                                    className="shrink-0 font-mono text-[12px] text-[#FF7A5C] hover:text-[#FF8B70] transition-colors"
                                 >
                                     Call
                                 </a>
 
                             ) : (
 
-                                <span className="shrink-0 font-mono text-[11px] text-ink-faint">
+                                <span className="shrink-0 font-mono text-[11px] text-white/30">
                                     Not Available
                                 </span>
 
@@ -717,16 +717,16 @@ export default function HospitalDetails() {
                             <MapPin
                                 size={15}
                                 strokeWidth={1.75}
-                                className="text-ink-faint shrink-0 mt-0.5"
+                                className="text-white/30 shrink-0 mt-0.5"
                             />
 
                             <div className="min-w-0">
 
-                                <p className="text-[11px] font-mono uppercase tracking-wide text-ink-faint mb-1">
+                                <p className="text-[11px] font-mono uppercase tracking-wide text-white/30 mb-1">
                                     Address
                                 </p>
 
-                                <span className="text-[13.5px] leading-relaxed text-ink-soft">
+                                <span className="text-[13.5px] leading-relaxed text-white/55">
 
                                     {address ||
                                         "Address not available"}
@@ -745,16 +745,16 @@ export default function HospitalDetails() {
                             <Building2
                                 size={15}
                                 strokeWidth={1.75}
-                                className="text-ink-faint shrink-0 mt-0.5"
+                                className="text-white/30 shrink-0 mt-0.5"
                             />
 
                             <div>
 
-                                <p className="text-[11px] font-mono uppercase tracking-wide text-ink-faint mb-1">
+                                <p className="text-[11px] font-mono uppercase tracking-wide text-white/30 mb-1">
                                     Emergency Department
                                 </p>
 
-                                <span className="text-[13.5px] text-ink-soft">
+                                <span className="text-[13.5px] text-white/55">
                                     {emergencyDepartment}
                                 </span>
 
@@ -776,7 +776,7 @@ export default function HospitalDetails() {
                     <button
                         type="button"
                         onClick={startNavigation}
-                        className="group flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-route px-8 py-4 text-[15px] font-medium text-canvas transition-all duration-300 hover:bg-[#ff6b4a] active:scale-[0.98] shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset,0_8px_24px_-8px_rgba(255,90,54,0.55)]"
+                        className="group flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#FF5A36] px-8 py-4 text-[15px] font-medium text-white transition-all duration-300 hover:bg-[#ff6b4a] active:scale-[0.98] shadow-[0_1px_0_0_rgba(255,255,255,0.15)_inset,0_8px_24px_-8px_rgba(255,90,54,0.55)]"
                     >
 
                         <Navigation
@@ -796,7 +796,7 @@ export default function HospitalDetails() {
                                 "/patient/results"
                             )
                         }
-                        className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 px-8 py-4 text-[15px] font-medium text-ink hover:border-ink/30 hover:bg-ink/[0.03] transition-all duration-300 active:scale-[0.98]"
+                        className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-8 py-4 text-[15px] font-medium text-white/70 hover:border-white/30 hover:bg-white/[0.03] transition-all duration-300 active:scale-[0.98]"
                     >
 
                         <ArrowLeft
