@@ -8,14 +8,21 @@ class HospitalUpdate(BaseModel):
     latitude: Optional[float] = None
     longitude: Optional[float] = None
 
+    # Public hospital information
+    address: Optional[str] = None
+    phone: Optional[str] = None
+    emergency_department: Optional[str] = None
+
+    # Operational capacity
     available_beds: Optional[int] = None
     available_icu: Optional[int] = None
     ventilators: Optional[int] = None
 
+    # Medical capabilities
     specialists: Optional[list[str]] = None
-
     resources: Optional[list[str]] = None
 
+    # Hospital classification
     hospital_type: Optional[str] = None
     emergency_level: Optional[str] = None
 

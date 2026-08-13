@@ -97,15 +97,53 @@ export default function HospitalDetails() {
 
     if (!prediction) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <p>No hospital recommendation available.</p>
+            <div className="min-h-screen flex items-center justify-center bg-canvas">
+                <p className="text-ink-soft">
+                    No hospital recommendation available.
+                </p>
             </div>
         );
     }
 
 
-    const hospital =
-        prediction.recommended_hospital;
+    const hospital = prediction.recommended_hospital;
+
+
+    /* -------------------------------------------------------------- */
+    /* Hospital name compatibility                                     */
+    /* -------------------------------------------------------------- */
+
+    const hospitalName =
+        hospital?.name ||
+        hospital?.hospital ||
+        "Recommended Hospital";
+
+
+    /* -------------------------------------------------------------- */
+    /* Contact information                                              */
+    /* -------------------------------------------------------------- */
+
+    const phone =
+        hospital?.phone ||
+        null;
+
+
+    const address =
+        hospital?.address ||
+        null;
+
+
+    const emergencyDepartment =
+        hospital?.emergency_department ||
+        "Emergency Department";
+
+
+    /* -------------------------------------------------------------- */
+    /* Coordinates                                                      */
+    /* -------------------------------------------------------------- */
+
+    const latitude = hospital?.latitude;
+    const longitude = hospital?.longitude;
 
 
     console.log("=================================");
@@ -113,8 +151,12 @@ export default function HospitalDetails() {
     console.log("=================================");
     console.log("Prediction:", prediction);
     console.log("Recommended hospital:", hospital);
-    console.log("Latitude:", hospital?.latitude);
-    console.log("Longitude:", hospital?.longitude);
+    console.log("Hospital name:", hospitalName);
+    console.log("Phone:", phone);
+    console.log("Address:", address);
+    console.log("Emergency department:", emergencyDepartment);
+    console.log("Latitude:", latitude);
+    console.log("Longitude:", longitude);
 
 
     const matched = new Set(
@@ -133,12 +175,8 @@ export default function HospitalDetails() {
         console.log("=================================");
 
         console.log("Hospital:", hospital);
-        console.log("Latitude:", hospital?.latitude);
-        console.log("Longitude:", hospital?.longitude);
-
-
-        const latitude = hospital?.latitude;
-        const longitude = hospital?.longitude;
+        console.log("Latitude:", latitude);
+        console.log("Longitude:", longitude);
 
 
         if (
@@ -339,16 +377,14 @@ export default function HospitalDetails() {
 
                                 <h1 className="font-display font-semibold text-[20px] sm:text-[22px] text-ink tracking-tightest leading-tight">
 
-                                    {hospital?.hospital ||
-                                        "Recommended Hospital"}
+                                    {hospitalName}
 
                                 </h1>
 
 
                                 <p className="text-[13.5px] text-ink-faint mt-0.5">
 
-                                    {hospital?.emergency_department ||
-                                        "Emergency Department"}
+                                    {emergencyDepartment}
 
                                 </p>
 
@@ -633,38 +669,48 @@ export default function HospitalDetails() {
 
                     <div className="rounded-xl border border-ink/[0.08] divide-y divide-ink/[0.06]">
 
-                        <div className="flex items-center justify-between px-4 py-3.5">
+                        {/* PHONE */}
 
-                            <div className="flex items-center gap-2.5">
+                        <div className="flex items-center justify-between gap-4 px-4 py-3.5">
+
+                            <div className="flex items-center gap-2.5 min-w-0">
 
                                 <Phone
                                     size={15}
                                     strokeWidth={1.75}
-                                    className="text-ink-faint"
+                                    className="text-ink-faint shrink-0"
                                 />
 
-                                <span className="text-[13.5px] text-ink-soft">
+                                <span className="text-[13.5px] text-ink-soft truncate">
 
-                                    {hospital?.phone ||
-                                        "Not Available"}
+                                    {phone || "Phone not available"}
 
                                 </span>
 
                             </div>
 
 
-                            {hospital?.phone && (
+                            {phone ? (
 
                                 <a
-                                    href={`tel:${hospital.phone}`}
-                                    className="font-mono text-[12px] text-route hover:text-[#ff6b4a] transition-colors"
+                                    href={`tel:${phone}`}
+                                    className="shrink-0 font-mono text-[12px] text-route hover:text-[#ff6b4a] transition-colors"
                                 >
                                     Call
                                 </a>
+
+                            ) : (
+
+                                <span className="shrink-0 font-mono text-[11px] text-ink-faint">
+                                    Not Available
+                                </span>
+
                             )}
 
                         </div>
 
+
+                        {/* ADDRESS */}
 
                         <div className="flex items-start gap-2.5 px-4 py-3.5">
 
@@ -674,15 +720,25 @@ export default function HospitalDetails() {
                                 className="text-ink-faint shrink-0 mt-0.5"
                             />
 
-                            <span className="text-[13.5px] text-ink-soft">
+                            <div className="min-w-0">
 
-                                {hospital?.address ||
-                                    "Address not available"}
+                                <p className="text-[11px] font-mono uppercase tracking-wide text-ink-faint mb-1">
+                                    Address
+                                </p>
 
-                            </span>
+                                <span className="text-[13.5px] leading-relaxed text-ink-soft">
+
+                                    {address ||
+                                        "Address not available"}
+
+                                </span>
+
+                            </div>
 
                         </div>
 
+
+                        {/* EMERGENCY DEPARTMENT */}
 
                         <div className="flex items-start gap-2.5 px-4 py-3.5">
 
@@ -692,12 +748,17 @@ export default function HospitalDetails() {
                                 className="text-ink-faint shrink-0 mt-0.5"
                             />
 
-                            <span className="text-[13.5px] text-ink-soft">
+                            <div>
 
-                                {hospital?.emergency_department ||
-                                    "Emergency Department"}
+                                <p className="text-[11px] font-mono uppercase tracking-wide text-ink-faint mb-1">
+                                    Emergency Department
+                                </p>
 
-                            </span>
+                                <span className="text-[13.5px] text-ink-soft">
+                                    {emergencyDepartment}
+                                </span>
+
+                            </div>
 
                         </div>
 
