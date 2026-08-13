@@ -5,11 +5,14 @@ import "./index.css";
 import App from "./App";
 
 import { PredictionProvider } from "./context/PredictionContext";
+import { AuthProvider } from "./context/AuthContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <PredictionProvider>
-      <App />
-    </PredictionProvider>
+    <AuthProvider>
+      <PredictionProvider>
+        <App />
+      </PredictionProvider>
+    </AuthProvider>
   </StrictMode>
 );

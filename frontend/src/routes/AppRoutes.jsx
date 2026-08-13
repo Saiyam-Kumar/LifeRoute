@@ -11,6 +11,7 @@ import Incidents from "../pages/Incidents/Incidents";
 import PatientLogin from "../pages/Auth/PatientLogin";
 import PatientRegister from "../pages/Auth/PatientRegister";
 import HospitalLogin from "../pages/Auth/HospitalLogin";
+import HospitalRegister from "../pages/Auth/HospitalRegister";
 
 // Patient
 import Dashboard from "../pages/Patient/Dashboard";
@@ -27,57 +28,123 @@ import Resources from "../pages/Hospital/Resources";
 import Analytics from "../pages/Hospital/Analytics";
 import HospitalProfile from "../pages/Hospital/Profile";
 
+// Auth protection
+import ProtectedRoute from "./ProtectedRoute";
+
 function AppRoutes() {
-  return (
-    <BrowserRouter>
-      <Routes>
+    return (
+        <BrowserRouter>
+            <Routes>
 
-        {/* ==================== */}
-        {/* PUBLIC / LANDING     */}
-        {/* ==================== */}
+                {/* Landing */}
+                <Route path="/" element={<Landing />} />
 
-        <Route path="/" element={<Landing />} />
+                {/* Incidents */}
+                <Route path="/incidents" element={<Incidents />} />
 
-        <Route path="/incidents" element={<Incidents />} />
+                {/* ==================== */}
+                {/* AUTHENTICATION       */}
+                {/* ==================== */}
 
+                <Route
+                    path="/patient/login"
+                    element={<PatientLogin />}
+                />
 
-        {/* ==================== */}
-        {/* AUTHENTICATION       */}
-        {/* ==================== */}
+                <Route
+                    path="/patient/register"
+                    element={<PatientRegister />}
+                />
 
-        <Route path="/patient/login" element={<PatientLogin />} />
-        <Route path="/patient/register" element={<PatientRegister />} />
+                <Route
+                    path="/hospital/login"
+                    element={<HospitalLogin />}
+                />
 
-        <Route path="/hospital/login" element={<HospitalLogin />} />
+                <Route
+                    path="/hospital/register"
+                    element={<HospitalRegister />}
+                />
 
+                {/* ==================== */}
+                {/* PATIENT              */}
+                {/* ==================== */}
 
-        {/* ==================== */}
-        {/* PATIENT              */}
-        {/* ==================== */}
+                <Route
+                    path="/patient/dashboard"
+                    element={<Dashboard />}
+                />
 
-        <Route path="/patient/dashboard" element={<Dashboard />} />
-        <Route path="/patient/assessment" element={<Assessment />} />
-        <Route path="/patient/loading" element={<Loading />} />
-        <Route path="/patient/results" element={<Results />} />
-        <Route path="/patient/history" element={<History />} />
-        <Route path="/patient/profile" element={<Profile />} />
-        <Route path="/patient/hospital" element={<HospitalDetails />} />
+                <Route
+                    path="/patient/assessment"
+                    element={
+                        <ProtectedRoute role="patient">
+                            <Assessment />
+                        </ProtectedRoute>
+                    }
+                />
 
+                <Route
+                    path="/patient/loading"
+                    element={<Loading />}
+                />
 
-        {/* ==================== */}
-        {/* HOSPITAL PORTAL      */}
-        {/* ==================== */}
+                <Route
+                    path="/patient/results"
+                    element={<Results />}
+                />
 
-        <Route path="/hospital" element={<HospitalLayout />}>
-          <Route path="dashboard" element={<HospitalDashboard />} />
-          <Route path="resources" element={<Resources />} />
-          <Route path="analytics" element={<Analytics />} />
-          <Route path="profile" element={<HospitalProfile />} />
-        </Route>
+                <Route
+                    path="/patient/history"
+                    element={<History />}
+                />
 
-      </Routes>
-    </BrowserRouter>
-  );
+                <Route
+                    path="/patient/profile"
+                    element={<Profile />}
+                />
+
+                <Route
+                    path="/patient/hospital"
+                    element={<HospitalDetails />}
+                />
+
+                {/* ==================== */}
+                {/* HOSPITAL PORTAL      */}
+                {/* ==================== */}
+
+                <Route
+                    path="/hospital"
+                    element={<HospitalLayout />}
+                >
+                    <Route
+                        path="dashboard"
+                        element={
+                            <ProtectedRoute role="hospital">
+                                <HospitalDashboard />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="resources"
+                        element={<Resources />}
+                    />
+
+                    <Route
+                        path="analytics"
+                        element={<Analytics />}
+                    />
+
+                    <Route
+                        path="profile"
+                        element={<HospitalProfile />}
+                    />
+                </Route>
+
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default AppRoutes;
