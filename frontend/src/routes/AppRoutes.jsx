@@ -1,5 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+// Layouts
+import HospitalLayout from "../layouts/HospitalLayout";
+
 // Landing
 import Landing from "../pages/Landing/Landing";
 import Incidents from "../pages/Incidents/Incidents";
@@ -25,33 +28,56 @@ import Analytics from "../pages/Hospital/Analytics";
 import HospitalProfile from "../pages/Hospital/Profile";
 
 function AppRoutes() {
-    return (
-        <BrowserRouter>
-            <Routes>
+  return (
+    <BrowserRouter>
+      <Routes>
 
-                <Route path="/" element={<Landing />} />
+        {/* ==================== */}
+        {/* PUBLIC / LANDING     */}
+        {/* ==================== */}
 
-                <Route path="/patient/login" element={<PatientLogin />} />
-                <Route path="/patient/register" element={<PatientRegister />} />
+        <Route path="/" element={<Landing />} />
 
-                <Route path="/patient/dashboard" element={<Dashboard />} />
-                <Route path="/patient/assessment" element={<Assessment />} />
-                <Route path="/patient/loading" element={<Loading />} />
-                <Route path="/patient/results" element={<Results />} />
-                <Route path="/patient/history" element={<History />} />
-                <Route path="/patient/profile" element={<Profile />} />
-                <Route path="/patient/hospital" element={<HospitalDetails />} />
+        <Route path="/incidents" element={<Incidents />} />
 
-                <Route path="/hospital/login" element={<HospitalLogin />} />
-                <Route path="/hospital/dashboard" element={<HospitalDashboard />} />
-                <Route path="/hospital/resources" element={<Resources />} />
-                <Route path="/hospital/analytics" element={<Analytics />} />
-                <Route path="/hospital/profile" element={<HospitalProfile />} />
-                <Route path="/incidents" element={<Incidents />} />
 
-            </Routes>
-        </BrowserRouter>
-    );
+        {/* ==================== */}
+        {/* AUTHENTICATION       */}
+        {/* ==================== */}
+
+        <Route path="/patient/login" element={<PatientLogin />} />
+        <Route path="/patient/register" element={<PatientRegister />} />
+
+        <Route path="/hospital/login" element={<HospitalLogin />} />
+
+
+        {/* ==================== */}
+        {/* PATIENT              */}
+        {/* ==================== */}
+
+        <Route path="/patient/dashboard" element={<Dashboard />} />
+        <Route path="/patient/assessment" element={<Assessment />} />
+        <Route path="/patient/loading" element={<Loading />} />
+        <Route path="/patient/results" element={<Results />} />
+        <Route path="/patient/history" element={<History />} />
+        <Route path="/patient/profile" element={<Profile />} />
+        <Route path="/patient/hospital" element={<HospitalDetails />} />
+
+
+        {/* ==================== */}
+        {/* HOSPITAL PORTAL      */}
+        {/* ==================== */}
+
+        <Route path="/hospital" element={<HospitalLayout />}>
+          <Route path="dashboard" element={<HospitalDashboard />} />
+          <Route path="resources" element={<Resources />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="profile" element={<HospitalProfile />} />
+        </Route>
+
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default AppRoutes;
