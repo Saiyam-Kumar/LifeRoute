@@ -8,7 +8,6 @@ const LINKS = [
   { label: "Features", href: "#features" },
   { label: "About", href: "#how-it-works" },
   { label: "Team", href: "#team" },
-  { label: "Hospital Portal", href: "#hospital-portal" },
 ];
 
 function Logo() {
@@ -21,19 +20,9 @@ function Logo() {
         fill="none"
         aria-hidden="true"
       >
-        <circle
-          cx="4"
-          cy="21"
-          r="2.5"
-          fill="#FFFFFF"
-        />
+        <circle cx="4" cy="21" r="2.5" fill="#FFFFFF" />
 
-        <circle
-          cx="22"
-          cy="5"
-          r="2.5"
-          fill="#FF5A36"
-        />
+        <circle cx="22" cy="5" r="2.5" fill="#FF5A36" />
 
         <path
           d="M5.5 19.5C11 12 13 12 20 6.5"
@@ -60,6 +49,16 @@ export default function Navbar() {
     navigate("/patient/assessment");
   };
 
+  const goToHospitalLogin = () => {
+    setOpen(false);
+    navigate("/hospital/login");
+  };
+
+  const goToHospitalRegister = () => {
+    setOpen(false);
+    navigate("/hospital/register");
+  };
+
   return (
     <motion.header
       initial={{ y: -16, opacity: 0 }}
@@ -74,7 +73,7 @@ export default function Navbar() {
         <Logo />
 
         {/* Desktop navigation */}
-        <div className="hidden md:flex items-center gap-9">
+        <div className="hidden md:flex items-center gap-8">
           {LINKS.map((link) => (
             <a
               key={link.label}
@@ -84,9 +83,25 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+
+          {/* Hospital Portal */}
+          <button
+            onClick={goToHospitalLogin}
+            className="text-[14px] font-medium text-white/70 hover:text-white transition-colors"
+          >
+            Hospital Portal
+          </button>
+
+          {/* Hospital Sign Up */}
+          <button
+            onClick={goToHospitalRegister}
+            className="text-[14px] font-medium text-white/70 hover:text-white transition-colors"
+          >
+            Hospital Sign Up
+          </button>
         </div>
 
-        {/* Desktop Emergency Assessment */}
+        {/* Emergency Assessment */}
         <div className="hidden md:block">
           <Button
             variant="primary"
@@ -98,7 +113,7 @@ export default function Navbar() {
           </Button>
         </div>
 
-        {/* Mobile menu button */}
+        {/* Mobile menu */}
         <button
           className="md:hidden text-white"
           onClick={() => setOpen((v) => !v)}
@@ -128,6 +143,20 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+
+          <button
+            onClick={goToHospitalLogin}
+            className="text-left text-[15px] font-medium text-white/70 hover:text-white transition-colors"
+          >
+            Hospital Portal
+          </button>
+
+          <button
+            onClick={goToHospitalRegister}
+            className="text-left text-[15px] font-medium text-white/70 hover:text-white transition-colors"
+          >
+            Hospital Sign Up
+          </button>
 
           <Button
             variant="primary"
