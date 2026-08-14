@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { register } from "../../services/authService";
+import { register, getIdToken } from "../../services/authService";
+
+const API_URL =
+    import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 function HospitalRegister() {
     const navigate = useNavigate();
@@ -40,27 +43,91 @@ function HospitalRegister() {
         setLoading(true);
 
         try {
-            await register(form.email, form.password);
+            // -----------------------------------------
+            // 1. Create Firebase authentication account
+            // -----------------------------------------
 
-            /*
-             * Firebase account has now been created.
-             *
-             * Hospital profile/resource registration can be connected
-             * to the backend after authentication is confirmed.
-             */
+            const firebaseUser = await register(
+                form.email,
+                form.password
+            );
+
+            console.log(
+                "Firebase account created:",
+                firebaseUser.uid
+            );
+
+            // -----------------------------------------
+            // 2. Get Firebase ID token
+            // -----------------------------------------
+
+            const token = await getIdToken();
+
+            // -----------------------------------------
+            // 3. Create LifeRoute hospital record
+            // -----------------------------------------
+
+            const response = await fetch(
+                `${API_URL}/hospital/register`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+
+                    body: JSON.stringify({
+                        name: form.hospitalName,
+                        email: form.email,
+                    }),
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.detail ||
+                    data.message ||
+                    "Unable to create hospital profile."
+                );
+            }
+
+            console.log(
+                "LifeRoute hospital created:",
+                data
+            );
+
+            // -----------------------------------------
+            // 4. Hospital registration complete
+            // -----------------------------------------
 
             navigate("/hospital/dashboard");
+
         } catch (err) {
-            console.error(err);
+            console.error(
+                "Hospital registration failed:",
+                err
+            );
 
             if (err.code === "auth/email-already-in-use") {
-                setError("An account already exists with this email.");
+                setError(
+                    "An account already exists with this email."
+                );
             } else if (err.code === "auth/invalid-email") {
-                setError("Please enter a valid email address.");
+                setError(
+                    "Please enter a valid email address."
+                );
             } else if (err.code === "auth/weak-password") {
-                setError("Password is too weak.");
+                setError(
+                    "Password is too weak."
+                );
             } else {
-                setError(err.message || "Unable to create account.");
+                setError(
+                    err.message ||
+                    "Unable to create hospital account."
+                );
             }
         } finally {
             setLoading(false);
@@ -84,6 +151,7 @@ function HospitalRegister() {
                 <div className="rounded-2xl border border-white/10 bg-[#15171d] p-8 shadow-xl">
 
                     <div className="mb-8">
+
                         <p className="text-sm text-orange-400 font-medium mb-2">
                             LIFEROUTE HOSPITAL PORTAL
                         </p>
@@ -96,9 +164,13 @@ function HospitalRegister() {
                             Create an account to access the LifeRoute hospital
                             management portal.
                         </p>
+
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                    <form
+                        onSubmit={handleSubmit}
+                        className="space-y-5"
+                    >
 
                         <div>
                             <label className="block text-sm font-medium mb-2">
@@ -183,17 +255,22 @@ function HospitalRegister() {
                     </form>
 
                     <div className="mt-6 text-center text-sm text-gray-400">
+
                         Already have an account?{" "}
+
                         <Link
                             to="/hospital/login"
                             className="text-orange-400 hover:text-orange-300 font-medium"
                         >
                             Sign in
                         </Link>
+
                     </div>
 
                 </div>
+
             </div>
+
         </div>
     );
 }

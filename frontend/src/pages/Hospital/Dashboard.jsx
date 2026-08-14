@@ -12,11 +12,9 @@ import {
   Wind,
 } from "lucide-react";
 
-const API_BASE_URL = "http://127.0.0.1:8000";
+import { getMe } from "../../services/authService";
 
-// Development hospital only.
-// This will later come from the authenticated hospital account.
-const DEV_HOSPITAL_ID = "ttw0KceICTFNZtxXy7TG";
+const API_BASE_URL = "http://127.0.0.1:8000";
 
 function StatCard({ icon: Icon, label, value, description, accent = "orange" }) {
   const accentClasses = {
@@ -94,25 +92,50 @@ export default function Dashboard() {
 
       setError("");
 
+      // -----------------------------------------
+      // 1. Get authenticated Firebase/LifeRoute user
+      // -----------------------------------------
+
+      const profile = await getMe();
+
+      console.log("Authenticated hospital profile:", profile);
+
+      if (!profile?.hospital_id) {
+        throw new Error(
+          "Your account is not linked to a LifeRoute hospital."
+        );
+      }
+
+      // -----------------------------------------
+      // 2. Get the hospital belonging to that user
+      // -----------------------------------------
+
       const response = await fetch(
-        `${API_BASE_URL}/hospital/${DEV_HOSPITAL_ID}`
+        `${API_BASE_URL}/hospital/${profile.hospital_id}`
       );
 
       if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
+        throw new Error(
+          `Request failed with status ${response.status}`
+        );
       }
 
       const data = await response.json();
 
       if (!data || data.message === "Hospital not found") {
-        throw new Error("Hospital could not be found.");
+        throw new Error(
+          "Your hospital record could not be found."
+        );
       }
 
       setHospital(data);
+
     } catch (err) {
       console.error("Hospital dashboard error:", err);
+
       setError(
-        err.message || "Unable to load hospital information right now."
+        err.message ||
+          "Unable to load hospital information right now."
       );
     } finally {
       setLoading(false);
@@ -187,7 +210,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-[#0B0D12] px-6 py-8 lg:px-10 lg:py-10">
       <div className="mx-auto max-w-7xl">
-        {/* Header */}
+
         <header className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
             <div className="flex items-center gap-2">
@@ -212,7 +235,6 @@ export default function Dashboard() {
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Status */}
             <div
               className={`flex items-center gap-2 rounded-full border px-4 py-2 ${
                 isOpen
@@ -250,7 +272,6 @@ export default function Dashboard() {
           </div>
         </header>
 
-        {/* Stats */}
         <div className="mt-9 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <StatCard
             icon={BedDouble}
@@ -285,14 +306,14 @@ export default function Dashboard() {
           />
         </div>
 
-        {/* Main content */}
         <div className="mt-6 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-          {/* Resource overview */}
+
           <SectionCard
             eyebrow="Capacity"
             title="Resource Availability"
           >
             <div className="space-y-6">
+
               <ResourceBar
                 label="General Beds"
                 value={hospital.available_beds}
@@ -313,10 +334,12 @@ export default function Dashboard() {
                 icon={Wind}
                 max={Math.max(hospital.ventilators, 15)}
               />
+
             </div>
 
             <div className="mt-7 rounded-xl border border-[#FF5A36]/10 bg-[#FF5A36]/[0.035] p-4">
               <div className="flex gap-3">
+
                 <Activity
                   size={17}
                   className="mt-0.5 shrink-0 text-[#FF5A36]"
@@ -333,16 +356,17 @@ export default function Dashboard() {
                     equipped for an emergency.
                   </p>
                 </div>
+
               </div>
             </div>
           </SectionCard>
 
-          {/* Hospital overview */}
           <SectionCard
             eyebrow="Hospital"
             title="Emergency Readiness"
           >
             <div className="space-y-5">
+
               <InfoRow
                 icon={CircleAlert}
                 label="Emergency Level"
@@ -372,17 +396,20 @@ export default function Dashboard() {
                 label="Resources"
                 value={`${hospital.resources?.length || 0} available`}
               />
+
             </div>
           </SectionCard>
+
         </div>
 
-        {/* Specialists + resources */}
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
+
           <SectionCard
             eyebrow="Medical Team"
             title="Specialists"
           >
             <div className="flex flex-wrap gap-2">
+
               {(hospital.specialists || []).map((specialist) => (
                 <span
                   key={specialist}
@@ -391,6 +418,7 @@ export default function Dashboard() {
                   {specialist}
                 </span>
               ))}
+
             </div>
           </SectionCard>
 
@@ -399,6 +427,7 @@ export default function Dashboard() {
             title="Available Resources"
           >
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+
               {(hospital.resources || []).map((resource) => (
                 <div
                   key={resource}
@@ -411,12 +440,14 @@ export default function Dashboard() {
                   </span>
                 </div>
               ))}
+
             </div>
           </SectionCard>
+
         </div>
 
-        {/* Footer metadata */}
         <div className="mt-8 flex flex-col gap-2 border-t border-white/[0.06] pt-5 text-[11px] text-white/20 sm:flex-row sm:items-center sm:justify-between">
+
           <span>
             Hospital ID:{" "}
             <span className="font-mono text-white/30">
@@ -428,7 +459,9 @@ export default function Dashboard() {
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/70" />
             Connected to LifeRoute backend
           </span>
+
         </div>
+
       </div>
     </div>
   );
@@ -439,26 +472,36 @@ function ResourceBar({ label, value, icon: Icon, max }) {
 
   return (
     <div>
+
       <div className="flex items-center justify-between">
+
         <div className="flex items-center gap-2.5">
+
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/[0.04] text-white/45">
             <Icon size={15} />
           </div>
 
-          <span className="text-sm text-white/55">{label}</span>
+          <span className="text-sm text-white/55">
+            {label}
+          </span>
+
         </div>
 
         <span className="font-display text-lg font-semibold text-white">
           {value}
         </span>
+
       </div>
 
       <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+
         <div
           className="h-full rounded-full bg-gradient-to-r from-[#FF5A36] to-[#FF8A70] transition-all duration-700"
           style={{ width: `${percentage}%` }}
         />
+
       </div>
+
     </div>
   );
 }
@@ -466,17 +509,23 @@ function ResourceBar({ label, value, icon: Icon, max }) {
 function InfoRow({ icon: Icon, label, value }) {
   return (
     <div className="flex items-center justify-between gap-4">
+
       <div className="flex min-w-0 items-center gap-3">
+
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.025] text-white/35">
           <Icon size={16} />
         </div>
 
-        <span className="text-sm text-white/40">{label}</span>
+        <span className="text-sm text-white/40">
+          {label}
+        </span>
+
       </div>
 
       <span className="truncate text-right text-sm font-medium text-white/75">
         {value}
       </span>
+
     </div>
   );
 }

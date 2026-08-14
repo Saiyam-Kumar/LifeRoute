@@ -11,12 +11,9 @@ import {
   Stethoscope,
   Wind,
 } from "lucide-react";
+import { getMe } from "../../services/authService";
 
 const API_BASE_URL = "http://127.0.0.1:8000";
-
-// Development hospital only.
-// This will later come from the authenticated hospital account.
-const DEV_HOSPITAL_ID = "ttw0KceICTFNZtxXy7TG";
 
 export default function Analytics() {
   const [hospital, setHospital] = useState(null);
@@ -34,8 +31,19 @@ export default function Analytics() {
 
       setError("");
 
+      const profile = await getMe();
+
+      const hospitalId =
+        profile?.hospital_id ||
+        profile?.hospital?.id ||
+        profile?.id;
+
+      if (!hospitalId) {
+        throw new Error("No hospital is linked to this account.");
+      }
+
       const response = await fetch(
-        `${API_BASE_URL}/hospital/${DEV_HOSPITAL_ID}`
+        `${API_BASE_URL}/hospital/${hospitalId}`
       );
 
       if (!response.ok) {
@@ -155,7 +163,6 @@ export default function Analytics() {
   return (
     <div className="min-h-screen bg-[#0B0D12] px-6 py-8 lg:px-10 lg:py-10">
       <div className="mx-auto max-w-7xl">
-        {/* Header */}
         <header className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
             <div className="flex items-center gap-2">
@@ -194,7 +201,6 @@ export default function Analytics() {
           </button>
         </header>
 
-        {/* Hospital identity */}
         <section className="mt-8 flex flex-col gap-4 rounded-2xl border border-white/[0.08] bg-[#11151D] p-5 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-4">
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#FF5A36]/[0.08] text-[#FF5A36]">
@@ -233,7 +239,6 @@ export default function Analytics() {
           </div>
         </section>
 
-        {/* Metrics */}
         <section className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <MetricCard
             icon={BedDouble}
@@ -268,9 +273,7 @@ export default function Analytics() {
           />
         </section>
 
-        {/* Main analytics */}
         <section className="mt-6 grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
-          {/* Capacity overview */}
           <div className="rounded-2xl border border-white/[0.08] bg-[#11151D] p-6">
             <div>
               <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#FF5A36]/70">
@@ -318,7 +321,6 @@ export default function Analytics() {
             </div>
           </div>
 
-          {/* Readiness */}
           <div className="rounded-2xl border border-white/[0.08] bg-[#11151D] p-6">
             <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#FF5A36]/70">
               Routing Readiness
@@ -368,7 +370,6 @@ export default function Analytics() {
           </div>
         </section>
 
-        {/* Capabilities */}
         <section className="mt-6 grid gap-6 lg:grid-cols-2">
           <InfoPanel
             eyebrow="Medical Team"
@@ -389,7 +390,6 @@ export default function Analytics() {
           />
         </section>
 
-        {/* Footer metadata */}
         <div className="mt-8 flex flex-col gap-2 border-t border-white/[0.06] pt-5 text-[11px] text-white/20 sm:flex-row sm:items-center sm:justify-between">
           <span>
             Hospital ID:{" "}

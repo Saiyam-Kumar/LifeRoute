@@ -12,15 +12,13 @@ import {
   Save,
   ShieldAlert,
 } from "lucide-react";
+import { getMe } from "../../services/authService";
 
 const API_BASE_URL = "http://127.0.0.1:8000";
 
-// Temporary development hospital.
-// Replace this with the authenticated hospital ID once hospital login is connected.
-const DEV_HOSPITAL_ID = "ttw0KceICTFNZtxXy7TG";
-
 export default function Profile() {
   const [hospital, setHospital] = useState(null);
+  const [hospitalId, setHospitalId] = useState(null);
 
   const [name, setName] = useState("");
   const [hospitalType, setHospitalType] = useState("");
@@ -48,8 +46,21 @@ export default function Profile() {
       setError("");
       setSuccess("");
 
+      const profile = await getMe();
+
+      const currentHospitalId =
+        profile?.hospital_id ||
+        profile?.hospital?.id ||
+        profile?.id;
+
+      if (!currentHospitalId) {
+        throw new Error("No hospital is linked to this account.");
+      }
+
+      setHospitalId(currentHospitalId);
+
       const response = await fetch(
-        `${API_BASE_URL}/hospital/${DEV_HOSPITAL_ID}`
+        `${API_BASE_URL}/hospital/${currentHospitalId}`
       );
 
       if (!response.ok) {
@@ -92,6 +103,10 @@ export default function Profile() {
       setSaving(true);
       setError("");
       setSuccess("");
+
+      if (!hospitalId) {
+        throw new Error("No hospital is linked to this account.");
+      }
 
       if (!name.trim()) {
         throw new Error("Hospital name is required.");
@@ -137,7 +152,7 @@ export default function Profile() {
       };
 
       const response = await fetch(
-        `${API_BASE_URL}/hospital/${DEV_HOSPITAL_ID}`,
+        `${API_BASE_URL}/hospital/${hospitalId}`,
         {
           method: "PATCH",
           headers: {
@@ -226,7 +241,6 @@ export default function Profile() {
     <div className="min-h-screen bg-[#0B0D12] px-6 py-8 lg:px-10 lg:py-10">
       <div className="mx-auto max-w-7xl">
 
-        {/* Header */}
         <header className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
             <div className="flex items-center gap-2">
@@ -265,7 +279,6 @@ export default function Profile() {
           </button>
         </header>
 
-        {/* Alerts */}
         {(error || success) && (
           <div className="mt-6">
             {error && (
@@ -294,10 +307,8 @@ export default function Profile() {
           </div>
         )}
 
-        {/* Main grid */}
         <div className="mt-8 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
 
-          {/* Left — editable information */}
           <section className="rounded-2xl border border-white/[0.08] bg-[#11151D]">
 
             <div className="border-b border-white/[0.07] px-6 py-5">
@@ -369,7 +380,6 @@ export default function Profile() {
             </div>
           </section>
 
-          {/* Right — location */}
           <div className="space-y-6">
 
             <section className="rounded-2xl border border-white/[0.08] bg-[#11151D]">
@@ -414,12 +424,10 @@ export default function Profile() {
 
                 </div>
 
-                {/* Coordinate preview */}
                 <div className="mt-6 overflow-hidden rounded-2xl border border-white/[0.07] bg-[#0D1117]">
 
                   <div className="relative h-52">
 
-                    {/* Grid */}
                     <div
                       className="absolute inset-0 opacity-30"
                       style={{
@@ -429,10 +437,8 @@ export default function Profile() {
                       }}
                     />
 
-                    {/* Radial glow */}
                     <div className="absolute left-1/2 top-1/2 h-36 w-36 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#FF5A36]/[0.07] blur-3xl" />
 
-                    {/* Pin */}
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
 
                       <div className="absolute inset-0 h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#FF5A36]/20 blur-xl" />
@@ -483,7 +489,6 @@ export default function Profile() {
               </div>
             </section>
 
-            {/* Current profile summary */}
             <section className="rounded-2xl border border-white/[0.08] bg-[#11151D] p-6">
 
               <div className="flex items-center gap-3">
@@ -533,7 +538,6 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* Save bar */}
         <div className="sticky bottom-5 z-20 mt-8">
 
           <div className="flex flex-col gap-4 rounded-2xl border border-white/[0.09] bg-[#0F131A]/95 p-4 shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between">
@@ -574,7 +578,6 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* Metadata */}
         <div className="mt-8 flex flex-col gap-2 border-t border-white/[0.06] pt-5 text-[11px] text-white/20 sm:flex-row sm:items-center sm:justify-between">
 
           <span>
@@ -595,11 +598,6 @@ export default function Profile() {
     </div>
   );
 }
-
-
-/* ================================================================ */
-/* INPUT                                                            */
-/* ================================================================ */
 
 function ProfileInput({
   icon: Icon,
@@ -631,11 +629,6 @@ function ProfileInput({
   );
 }
 
-
-/* ================================================================ */
-/* TEXTAREA                                                         */
-/* ================================================================ */
-
 function ProfileTextarea({
   icon: Icon,
   label,
@@ -662,11 +655,6 @@ function ProfileTextarea({
     </label>
   );
 }
-
-
-/* ================================================================ */
-/* SUMMARY ROW                                                       */
-/* ================================================================ */
 
 function SummaryRow({ label, value }) {
   return (

@@ -12,12 +12,9 @@ import {
   Wind,
   X,
 } from "lucide-react";
+import { getMe } from "../../services/authService";
 
 const API_BASE_URL = "http://127.0.0.1:8000";
-
-// Development hospital only.
-// This will later come from the authenticated hospital account.
-const DEV_HOSPITAL_ID = "ttw0KceICTFNZtxXy7TG";
 
 const SPECIALIST_OPTIONS = [
   "Emergency Physician",
@@ -48,6 +45,7 @@ const RESOURCE_OPTIONS = [
 
 export default function Resources() {
   const [hospital, setHospital] = useState(null);
+  const [hospitalId, setHospitalId] = useState(null);
 
   const [beds, setBeds] = useState(0);
   const [icu, setIcu] = useState(0);
@@ -75,8 +73,21 @@ export default function Resources() {
       setError("");
       setSuccess("");
 
+      const profile = await getMe();
+
+      const currentHospitalId =
+        profile?.hospital_id ||
+        profile?.hospital?.id ||
+        profile?.id;
+
+      if (!currentHospitalId) {
+        throw new Error("No hospital is linked to this account.");
+      }
+
+      setHospitalId(currentHospitalId);
+
       const response = await fetch(
-        `${API_BASE_URL}/hospital/${DEV_HOSPITAL_ID}`
+        `${API_BASE_URL}/hospital/${currentHospitalId}`
       );
 
       if (!response.ok) {
@@ -135,6 +146,10 @@ export default function Resources() {
       setError("");
       setSuccess("");
 
+      if (!hospitalId) {
+        throw new Error("No hospital is linked to this account.");
+      }
+
       const payload = {
         available_beds: Math.max(0, Number(beds) || 0),
         available_icu: Math.max(0, Number(icu) || 0),
@@ -145,7 +160,7 @@ export default function Resources() {
       };
 
       const response = await fetch(
-        `${API_BASE_URL}/hospital/${DEV_HOSPITAL_ID}`,
+        `${API_BASE_URL}/hospital/${hospitalId}`,
         {
           method: "PATCH",
           headers: {
@@ -165,7 +180,6 @@ export default function Resources() {
 
       setSuccess("Hospital resources updated successfully.");
 
-      // Refresh from backend so the UI reflects the actual saved data.
       await fetchHospital();
 
       setTimeout(() => {
@@ -232,7 +246,7 @@ export default function Resources() {
   return (
     <div className="min-h-screen bg-[#0B0D12] px-6 py-8 lg:px-10 lg:py-10">
       <div className="mx-auto max-w-7xl">
-        {/* Header */}
+
         <header className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
             <div className="flex items-center gap-2">
@@ -271,7 +285,6 @@ export default function Resources() {
           </button>
         </header>
 
-        {/* Alerts */}
         {(error || success) && (
           <div className="mt-6">
             {error && (
@@ -300,7 +313,6 @@ export default function Resources() {
           </div>
         )}
 
-        {/* Operational status */}
         <section className="mt-8 rounded-2xl border border-white/[0.08] bg-[#11151D] p-6">
           <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-4">
@@ -358,7 +370,6 @@ export default function Resources() {
           </div>
         </section>
 
-        {/* Capacity */}
         <section className="mt-6">
           <SectionHeader
             eyebrow="Capacity"
@@ -396,7 +407,6 @@ export default function Resources() {
           </div>
         </section>
 
-        {/* Specialists */}
         <section className="mt-10">
           <SectionHeader
             eyebrow="Medical Team"
@@ -448,7 +458,6 @@ export default function Resources() {
           </div>
         </section>
 
-        {/* Resources */}
         <section className="mt-10">
           <SectionHeader
             eyebrow="Facilities & Equipment"
@@ -515,7 +524,6 @@ export default function Resources() {
           </div>
         </section>
 
-        {/* Save */}
         <div className="sticky bottom-5 z-20 mt-10">
           <div className="flex flex-col gap-4 rounded-2xl border border-white/[0.09] bg-[#0F131A]/95 p-4 shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -550,7 +558,6 @@ export default function Resources() {
           </div>
         </div>
 
-        {/* Footer metadata */}
         <div className="mt-8 border-t border-white/[0.06] pt-5 text-[11px] text-white/20">
           Hospital ID:{" "}
           <span className="font-mono text-white/30">

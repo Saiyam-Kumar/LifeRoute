@@ -3,17 +3,40 @@ from app.database.firebase import db
 
 class AuthService:
     COLLECTION = "users"
+    HOSPITAL_COLLECTION = "hospitals"
 
     def get_user(self, uid: str):
+        # First check normal LifeRoute users collection
         doc = db.collection(self.COLLECTION).document(uid).get()
 
-        if not doc.exists:
-            return None
+        if doc.exists:
+            user = doc.to_dict()
+            user["uid"] = doc.id
+            return user
 
-        user = doc.to_dict()
-        user["uid"] = doc.id
+        # If no normal user exists, check hospital records
+        hospitals = (
+            db.collection(self.HOSPITAL_COLLECTION)
+            .where("firebase_uid", "==", uid)
+            .limit(1)
+            .stream()
+        )
 
-        return user
+        for hospital_doc in hospitals:
+            hospital = hospital_doc.to_dict()
+
+            return {
+                "uid": uid,
+                "email": hospital.get("email"),
+                "role": "hospital",
+                "hospital_id": hospital_doc.id,
+                "hospital": {
+                    **hospital,
+                    "id": hospital_doc.id,
+                },
+            }
+
+        return None
 
     def create_user(self, uid: str, user_data: dict):
         doc_ref = db.collection(self.COLLECTION).document(uid)

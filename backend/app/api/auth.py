@@ -16,10 +16,6 @@ auth_service = AuthService()
 def get_current_user(
     decoded_token: dict = Depends(verify_firebase_token),
 ):
-    """
-    Return the authenticated LifeRoute user's profile.
-    """
-
     uid = decoded_token["uid"]
 
     user = auth_service.get_user(uid)

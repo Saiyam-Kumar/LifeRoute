@@ -2,13 +2,13 @@ from fastapi import Header, HTTPException
 from firebase_admin import auth
 
 
-def verify_firebase_token(authorization: str | None = Header(default=None)):
+def verify_firebase_token(
+    authorization: str | None = Header(default=None),
+):
     """
     Verify a Firebase ID token sent as:
 
     Authorization: Bearer <firebase_id_token>
-
-    Returns the decoded Firebase token if valid.
     """
 
     if not authorization:
@@ -33,6 +33,7 @@ def verify_firebase_token(authorization: str | None = Header(default=None)):
 
     try:
         decoded_token = auth.verify_id_token(id_token)
+
         return decoded_token
 
     except Exception:

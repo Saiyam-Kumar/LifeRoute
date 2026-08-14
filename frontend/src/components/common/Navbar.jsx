@@ -92,13 +92,6 @@ export default function Navbar() {
             Hospital Portal
           </button>
 
-          {/* Hospital Sign Up */}
-          <button
-            onClick={goToHospitalRegister}
-            className="text-[14px] font-medium text-white/70 hover:text-white transition-colors"
-          >
-            Hospital Sign Up
-          </button>
         </div>
 
         {/* Emergency Assessment */}
@@ -149,13 +142,6 @@ export default function Navbar() {
             className="text-left text-[15px] font-medium text-white/70 hover:text-white transition-colors"
           >
             Hospital Portal
-          </button>
-
-          <button
-            onClick={goToHospitalRegister}
-            className="text-left text-[15px] font-medium text-white/70 hover:text-white transition-colors"
-          >
-            Hospital Sign Up
           </button>
 
           <Button

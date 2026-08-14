@@ -10,6 +10,7 @@ from app.api.emergency import router as emergency_router
 from app.api.hospital import router as hospital_router
 from app.api.ai import router as ai_router
 from app.api.auth import router as auth_router
+from app.api.patient import router as patient_router
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -50,4 +51,5 @@ app.include_router(health_router)
 app.include_router(emergency_router)
 app.include_router(hospital_router)
 app.include_router(ai_router)
+app.include_router(patient_router)
 app.include_router(auth_router)
