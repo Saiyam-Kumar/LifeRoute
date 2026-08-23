@@ -25,9 +25,11 @@ export default function Hero() {
 
       <div className="relative z-20 mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid items-center gap-14 lg:grid-cols-[1fr_0.9fr] xl:gap-20">
+
           {/* LEFT — HERO CONTENT */}
 
           <div className="relative max-w-2xl">
+
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
@@ -43,6 +45,7 @@ export default function Hero() {
                 Live hospital capacity, not a guess
               </span>
             </motion.div>
+
 
             <motion.h1
               initial={{ opacity: 0, y: 18 }}
@@ -65,6 +68,7 @@ export default function Hero() {
               </span>
             </motion.h1>
 
+
             <motion.p
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
@@ -80,6 +84,7 @@ export default function Hero() {
               the hospital most capable of treating your emergency.
             </motion.p>
 
+
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
@@ -90,12 +95,17 @@ export default function Hero() {
               }}
               className="mt-9 flex flex-wrap gap-3"
             >
+
+              {/* CHANGED:
+                  Landing → RFID/NFC → Assessment
+              */}
               <Button
                 variant="primary"
-                onClick={() => navigate("/patient/assessment")}
+                onClick={() => navigate("/patient/rfid")}
               >
                 Start Emergency Assessment
               </Button>
+
 
               <Button
                 variant="secondary-dark"
@@ -105,7 +115,9 @@ export default function Hero() {
               >
                 See How It Works
               </Button>
+
             </motion.div>
+
 
             <motion.div
               initial={{ opacity: 0 }}
@@ -118,9 +130,13 @@ export default function Hero() {
             >
               <span className="h-px w-8 bg-white/15" />
 
-              <span>AI-assisted emergency routing</span>
+              <span>
+                AI-assisted emergency routing
+              </span>
             </motion.div>
+
           </div>
+
 
           {/* RIGHT — AI RECOMMENDATION */}
 
@@ -134,8 +150,10 @@ export default function Hero() {
             }}
             className="relative lg:justify-self-end"
           >
+
             {/* Ambient glow */}
             <div className="pointer-events-none absolute -inset-8 rounded-[3rem] bg-[#4A58B4]/[0.05] blur-3xl" />
+
 
             <div
               className="
@@ -152,33 +170,46 @@ export default function Hero() {
                 md:p-7
               "
             >
+
               {/* Subtle panel lighting */}
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.035] via-transparent to-route/[0.025]" />
 
+
               {/* Header */}
               <div className="relative flex items-start justify-between">
+
                 <div>
+
                   <div className="flex items-center gap-2">
+
                     <span className="h-1.5 w-1.5 rounded-full bg-green-400 shadow-[0_0_10px_rgba(74,222,128,0.5)]" />
 
                     <p className="text-[11px] uppercase tracking-[0.22em] text-white/35">
                       Live Hospital Intelligence
                     </p>
+
                   </div>
+
 
                   <h2 className="mt-2 text-[22px] font-semibold tracking-tight text-white">
                     AI Recommendation
                   </h2>
+
                 </div>
+
 
                 <span className="rounded-full border border-green-400/15 bg-green-400/[0.06] px-2.5 py-1 text-[10px] font-medium text-green-300/70">
                   LIVE
                 </span>
+
               </div>
+
 
               {/* Hospital metrics */}
               <div className="relative mt-8 space-y-4">
+
                 <div className="flex items-center justify-between">
+
                   <span className="text-sm text-white/40">
                     Hospitals Checked
                   </span>
@@ -186,9 +217,12 @@ export default function Hero() {
                   <span className="font-semibold text-white">
                     18
                   </span>
+
                 </div>
 
+
                 <div className="flex items-center justify-between">
+
                   <span className="text-sm text-white/40">
                     KTAS Severity
                   </span>
@@ -196,9 +230,12 @@ export default function Hero() {
                   <span className="text-sm font-semibold text-route">
                     Level 2 • Emergent
                   </span>
+
                 </div>
 
+
                 <div className="flex items-center justify-between">
+
                   <span className="text-sm text-white/40">
                     Predicted ETA
                   </span>
@@ -206,20 +243,28 @@ export default function Hero() {
                   <span className="font-semibold text-white">
                     11 min
                   </span>
+
                 </div>
+
               </div>
+
 
               {/* Divider */}
               <div className="relative my-7 h-px bg-white/[0.08]" />
 
+
               {/* Recommended hospital */}
               <div className="relative">
+
                 <p className="text-xs text-white/35">
                   Recommended Hospital
                 </p>
 
+
                 <div className="mt-2 flex items-end justify-between gap-4">
+
                   <div>
+
                     <h3 className="text-[27px] font-semibold tracking-tight text-white">
                       PGIMER Chandigarh
                     </h3>
@@ -227,24 +272,34 @@ export default function Hero() {
                     <p className="mt-1.5 text-sm text-route">
                       Capacity Match • 98%
                     </p>
+
                   </div>
 
+
                   <div className="hidden h-10 w-10 items-center justify-center rounded-full border border-route/15 bg-route/[0.06] text-route sm:flex">
+
                     <span className="text-lg">
                       ✓
                     </span>
+
                   </div>
+
                 </div>
+
               </div>
+
 
               {/* Bottom statistics */}
               <div className="relative mt-7 grid grid-cols-2 gap-3">
+
                 <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4">
+
                   <p className="text-xs text-white/35">
                     ICU Beds
                   </p>
 
                   <div className="mt-2 flex items-end justify-between">
+
                     <span className="text-2xl font-semibold text-white">
                       14
                     </span>
@@ -252,15 +307,20 @@ export default function Hero() {
                     <span className="text-[11px] text-green-300/60">
                       Available
                     </span>
+
                   </div>
+
                 </div>
 
+
                 <div className="rounded-2xl border border-route/[0.12] bg-route/[0.035] p-4">
+
                   <p className="text-xs text-white/35">
                     Confidence
                   </p>
 
                   <div className="mt-2 flex items-end justify-between">
+
                     <span className="text-2xl font-semibold text-route">
                       96%
                     </span>
@@ -268,22 +328,32 @@ export default function Hero() {
                     <span className="text-[11px] text-white/30">
                       High
                     </span>
+
                   </div>
+
                 </div>
+
               </div>
+
 
               {/* Explanation */}
               <div className="relative mt-5 flex items-center gap-2 text-[11px] text-white/30">
+
                 <span className="h-1.5 w-1.5 rounded-full bg-route/80" />
 
                 <span>
                   Recommendation based on severity, resources and travel time
                 </span>
+
               </div>
+
             </div>
+
           </motion.div>
+
         </div>
       </div>
+
     </section>
   );
 }

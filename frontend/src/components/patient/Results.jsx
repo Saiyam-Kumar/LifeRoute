@@ -2,6 +2,8 @@ import usePrediction from "../../hooks/usePrediction";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
+import LiveEmergencyStatus from "./LiveEmergencyStatus";
+
 import {
   Activity,
   HeartPulse,
@@ -168,6 +170,7 @@ export default function Results() {
       {/* EMERGENCY STRIP                                            */}
       {/* ========================================================== */}
 
+      <LiveEmergencyStatus />
 
       {/* ========================================================== */}
       {/* HEADER                                                      */}
@@ -394,8 +397,6 @@ export default function Results() {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-7">
 
-              {/* SCORE */}
-
               <div className="rounded-xl border border-[#FF5A36]/20 bg-[#FF5A36]/[0.05] p-4">
 
                 <div className="flex items-center gap-1.5 text-[#FF7A5C] mb-1.5">
@@ -416,8 +417,6 @@ export default function Results() {
 
               </div>
 
-              {/* ETA */}
-
               <div className="rounded-xl border border-white/[0.08] bg-white/[0.025] p-4">
 
                 <div className="flex items-center gap-1.5 text-white/35 mb-1.5">
@@ -435,8 +434,6 @@ export default function Results() {
                 </div>
 
               </div>
-
-              {/* DISTANCE */}
 
               <div className="rounded-xl border border-white/[0.08] bg-white/[0.025] p-4">
 
@@ -570,8 +567,6 @@ export default function Results() {
 
         <div className="grid sm:grid-cols-2 gap-6 mb-6">
 
-          {/* AVAILABLE */}
-
           <Panel>
 
             <SectionLabel>
@@ -619,8 +614,6 @@ export default function Results() {
             </div>
 
           </Panel>
-
-          {/* MISSING */}
 
           <Panel>
 
@@ -757,7 +750,7 @@ export default function Results() {
         </Panel>
 
         {/* ======================================================== */}
-        {/* ACTIONS                                                    */}
+        {/* ACTIONS                                                   */}
         {/* ======================================================== */}
 
         <div className="flex flex-col sm:flex-row gap-3">

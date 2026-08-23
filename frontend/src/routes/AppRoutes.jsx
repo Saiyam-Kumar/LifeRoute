@@ -22,6 +22,9 @@ import HospitalDetails from "../pages/Patient/HospitalDetails";
 import History from "../pages/Patient/History";
 import Profile from "../pages/Patient/Profile";
 
+// RFID / NFC
+import RfidNfcScanner from "../components/patient/RfidNfcScanner";
+
 // Hospital
 import HospitalDashboard from "../pages/Hospital/Dashboard";
 import Resources from "../pages/Hospital/Resources";
@@ -36,14 +39,26 @@ function AppRoutes() {
         <BrowserRouter>
             <Routes>
 
-                {/* Landing */}
-                <Route path="/" element={<Landing />} />
+                {/* ==================== */}
+                {/* LANDING              */}
+                {/* ==================== */}
 
-                {/* Incidents */}
-                <Route path="/incidents" element={<Incidents />} />
+                <Route
+                    path="/"
+                    element={<Landing />}
+                />
 
                 {/* ==================== */}
-                {/* AUTHENTICATION       */}
+                {/* INCIDENTS             */}
+                {/* ==================== */}
+
+                <Route
+                    path="/incidents"
+                    element={<Incidents />}
+                />
+
+                {/* ==================== */}
+                {/* AUTHENTICATION        */}
                 {/* ==================== */}
 
                 <Route
@@ -67,14 +82,25 @@ function AppRoutes() {
                 />
 
                 {/* ==================== */}
-                {/* PATIENT              */}
+                {/* PATIENT               */}
                 {/* ==================== */}
 
                 <Route
                     path="/patient/dashboard"
-                    element={<Dashboard />}
+                    element={
+                        <ProtectedRoute role="patient">
+                            <Dashboard />
+                        </ProtectedRoute>
+                    }
                 />
 
+                {/* RFID / NFC IDENTIFICATION */}
+                <Route
+                    path="/patient/rfid"
+                    element={<RfidNfcScanner />}
+                />
+
+                {/* Existing emergency assessment */}
                 <Route
                     path="/patient/assessment"
                     element={
