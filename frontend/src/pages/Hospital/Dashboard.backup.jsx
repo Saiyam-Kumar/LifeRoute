@@ -12,8 +12,6 @@ import {
   Wind,
   Network,
   CheckCircle2,
-  Radio,
-  ArrowRight,
 } from "lucide-react";
 
 import { getMe } from "../../services/authService";
@@ -111,6 +109,10 @@ export default function Dashboard() {
 
       setError("");
 
+      // -----------------------------------------
+      // 1. Get authenticated Firebase/LifeRoute user
+      // -----------------------------------------
+
       const profile = await getMe();
 
       console.log("Authenticated hospital profile:", profile);
@@ -120,6 +122,10 @@ export default function Dashboard() {
           "Your account is not linked to a LifeRoute hospital."
         );
       }
+
+      // -----------------------------------------
+      // 2. Get the hospital belonging to that user
+      // -----------------------------------------
 
       const response = await fetch(
         `${API_BASE_URL}/hospital/${profile.hospital_id}`
@@ -217,18 +223,13 @@ export default function Dashboard() {
 
   const isOpen = hospital?.is_open;
 
-  const availableBeds = Number(hospital?.available_beds) || 0;
-  const availableIcu = Number(hospital?.available_icu) || 0;
-  const ventilators = Number(hospital?.ventilators) || 0;
-
-  const totalCriticalResources =
-    availableIcu + ventilators;
-
   return (
     <div className="min-h-screen bg-[#0B0D12] px-6 py-8 lg:px-10 lg:py-10">
       <div className="mx-auto max-w-7xl">
 
+        {/* ------------------------------------------------ */}
         {/* HEADER */}
+        {/* ------------------------------------------------ */}
 
         <header className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
@@ -262,18 +263,14 @@ export default function Dashboard() {
               }`}
             >
               <span
-                className={`h-2 w-2 ${
-                  isOpen
-                    ? "bg-emerald-400"
-                    : "bg-red-400"
-                } rounded-full`}
+                className={`h-2 w-2 rounded-full ${
+                  isOpen ? "bg-emerald-400" : "bg-red-400"
+                }`}
               />
 
               <span
                 className={`text-xs font-medium ${
-                  isOpen
-                    ? "text-emerald-300"
-                    : "text-red-300"
+                  isOpen ? "text-emerald-300" : "text-red-300"
                 }`}
               >
                 {isOpen ? "Operational" : "Closed"}
@@ -295,13 +292,15 @@ export default function Dashboard() {
           </div>
         </header>
 
+        {/* ------------------------------------------------ */}
         {/* CAPACITY STATS */}
+        {/* ------------------------------------------------ */}
 
         <div className="mt-9 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <StatCard
             icon={BedDouble}
             label="Available Beds"
-            value={availableBeds}
+            value={hospital.available_beds}
             description="General capacity currently available"
             accent="orange"
           />
@@ -309,7 +308,7 @@ export default function Dashboard() {
           <StatCard
             icon={HeartPulse}
             label="ICU Beds"
-            value={availableIcu}
+            value={hospital.available_icu}
             description="Critical-care beds available"
             accent="blue"
           />
@@ -317,7 +316,7 @@ export default function Dashboard() {
           <StatCard
             icon={Wind}
             label="Ventilators"
-            value={ventilators}
+            value={hospital.ventilators}
             description="Ventilators currently available"
             accent="green"
           />
@@ -331,7 +330,9 @@ export default function Dashboard() {
           />
         </div>
 
+        {/* ------------------------------------------------ */}
         {/* CAPACITY + READINESS */}
+        {/* ------------------------------------------------ */}
 
         <div className="mt-6 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
 
@@ -343,29 +344,30 @@ export default function Dashboard() {
 
               <ResourceBar
                 label="General Beds"
-                value={availableBeds}
+                value={hospital.available_beds}
                 icon={BedDouble}
-                max={Math.max(availableBeds, 100)}
+                max={Math.max(hospital.available_beds, 100)}
               />
 
               <ResourceBar
                 label="ICU Beds"
-                value={availableIcu}
+                value={hospital.available_icu}
                 icon={HeartPulse}
-                max={Math.max(availableIcu, 25)}
+                max={Math.max(hospital.available_icu, 25)}
               />
 
               <ResourceBar
                 label="Ventilators"
-                value={ventilators}
+                value={hospital.ventilators}
                 icon={Wind}
-                max={Math.max(ventilators, 15)}
+                max={Math.max(hospital.ventilators, 15)}
               />
 
             </div>
 
             <div className="mt-7 rounded-xl border border-[#FF5A36]/10 bg-[#FF5A36]/[0.035] p-4">
               <div className="flex gap-3">
+
                 <Activity
                   size={17}
                   className="mt-0.5 shrink-0 text-[#FF5A36]"
@@ -382,6 +384,7 @@ export default function Dashboard() {
                     equipped for an emergency.
                   </p>
                 </div>
+
               </div>
             </div>
           </SectionCard>
@@ -407,11 +410,7 @@ export default function Dashboard() {
               <InfoRow
                 icon={Clock3}
                 label="Operational Status"
-                value={
-                  isOpen
-                    ? "Currently Open"
-                    : "Currently Closed"
-                }
+                value={isOpen ? "Currently Open" : "Currently Closed"}
               />
 
               <InfoRow
@@ -431,183 +430,35 @@ export default function Dashboard() {
 
         </div>
 
-        {/* ROUND 2 — NETWORK CONNECTION */}
+        {/* ------------------------------------------------ */}
+        {/* ROUND 2 — HOSPITAL NETWORK */}
+        {/* ------------------------------------------------ */}
 
         <div className="mt-6">
           <SectionCard
-            eyebrow="Live Network"
-            title="LifeRoute Emergency Network"
-          >
-            <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-
-              <div>
-                <div className="flex items-start gap-4">
-
-                  <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-emerald-400/15 bg-emerald-400/[0.07] text-emerald-400">
-                    <Network
-                      size={22}
-                      strokeWidth={1.7}
-                    />
-
-                    <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#11151D]">
-                      <span className="h-2 w-2 rounded-full bg-emerald-400" />
-                    </span>
-                  </div>
-
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-display text-xl font-semibold tracking-tight text-white">
-                        Connected to LifeRoute
-                      </h3>
-
-                      <span className="rounded-full border border-emerald-400/10 bg-emerald-400/[0.06] px-2 py-1 text-[9px] font-medium uppercase tracking-wider text-emerald-300">
-                        Live
-                      </span>
-                    </div>
-
-                    <p className="mt-2 max-w-2xl text-sm leading-6 text-white/40">
-                      Your hospital's current capacity is available to
-                      LifeRoute's emergency recommendation engine. When a
-                      patient requires urgent care, the system can compare
-                      required resources with connected hospitals.
-                    </p>
-                  </div>
-
-                </div>
-
-                {/* Network flow */}
-
-                <div className="mt-7 grid items-center gap-2 sm:grid-cols-3">
-
-                  <NetworkStep
-                    icon={Activity}
-                    title="Patient Need"
-                    description="AI identifies required resources"
-                  />
-
-                  <div className="hidden justify-center sm:flex">
-                    <ArrowRight
-                      size={18}
-                      className="text-white/20"
-                    />
-                  </div>
-
-                  <NetworkStep
-                    icon={Network}
-                    title="Resource Match"
-                    description="LifeRoute checks hospital capacity"
-                  />
-
-                  <div className="hidden justify-center sm:flex">
-                    <ArrowRight
-                      size={18}
-                      className="text-white/20"
-                    />
-                  </div>
-
-                  <NetworkStep
-                    icon={HeartPulse}
-                    title="Hospital"
-                    description="Suitable emergency destination"
-                  />
-
-                </div>
-              </div>
-
-              {/* Live network status */}
-
-              <div className="rounded-2xl border border-white/[0.07] bg-black/10 p-5">
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/25">
-                      Current Network Status
-                    </p>
-
-                    <h3 className="mt-2 font-display text-lg font-semibold text-white">
-                      Resource Signal
-                    </h3>
-                  </div>
-
-                  <Radio
-                    size={18}
-                    className="text-emerald-400"
-                  />
-                </div>
-
-                <div className="mt-5 space-y-3">
-
-                  <NetworkMetric
-                    label="General Beds"
-                    value={availableBeds}
-                  />
-
-                  <NetworkMetric
-                    label="ICU Beds"
-                    value={availableIcu}
-                  />
-
-                  <NetworkMetric
-                    label="Ventilators"
-                    value={ventilators}
-                  />
-
-                </div>
-
-                <div className="mt-5 border-t border-white/[0.07] pt-4">
-
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2
-                      size={15}
-                      className="text-emerald-400"
-                    />
-
-                    <span className="text-xs font-medium text-emerald-300">
-                      Hospital is sharing live capacity
-                    </span>
-                  </div>
-
-                  <p className="mt-2 text-[11px] leading-5 text-white/30">
-                    Updating these values keeps emergency recommendations
-                    aligned with the hospital's current operational capacity.
-                  </p>
-
-                </div>
-              </div>
-
-            </div>
-          </SectionCard>
-        </div>
-
-        {/* BUSINESS MODEL */}
-
-        <div className="mt-6">
-          <SectionCard
-            eyebrow="Sustainable Access Model"
-            title="LifeRoute Hospital Plan"
+            eyebrow="LifeRoute Network"
+            title="Hospital Coordination Plan"
           >
             <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
 
+              {/* Main explanation */}
               <div>
-
                 <div className="flex items-start gap-4">
 
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#FF5A36]/15 bg-[#FF5A36]/[0.07] text-[#FF5A36]">
-                    <Network
-                      size={22}
-                      strokeWidth={1.7}
-                    />
+                    <Network size={22} strokeWidth={1.7} />
                   </div>
 
                   <div>
                     <h3 className="font-display text-xl font-semibold tracking-tight text-white">
-                      Hospital Network Subscription
+                      LifeRoute Hospital Network
                     </h3>
 
                     <p className="mt-2 max-w-2xl text-sm leading-6 text-white/40">
-                      Hospitals subscribe to the LifeRoute coordination
-                      infrastructure while emergency access remains free for
-                      patients.
+                      LifeRoute keeps emergency access free for patients while
+                      hospitals subscribe to the coordination infrastructure
+                      that powers resource visibility and intelligent emergency
+                      routing.
                     </p>
                   </div>
 
@@ -642,6 +493,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
+              {/* Pricing card */}
               <div className="rounded-2xl border border-[#FF5A36]/15 bg-gradient-to-br from-[#FF5A36]/[0.08] via-white/[0.02] to-transparent p-5">
 
                 <div className="flex items-center justify-between">
@@ -701,7 +553,9 @@ export default function Dashboard() {
           </SectionCard>
         </div>
 
+        {/* ------------------------------------------------ */}
         {/* SPECIALISTS + RESOURCES */}
+        {/* ------------------------------------------------ */}
 
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
 
@@ -747,7 +601,9 @@ export default function Dashboard() {
 
         </div>
 
+        {/* ------------------------------------------------ */}
         {/* FOOTER */}
+        {/* ------------------------------------------------ */}
 
         <div className="mt-8 flex flex-col gap-2 border-t border-white/[0.06] pt-5 text-[11px] text-white/20 sm:flex-row sm:items-center sm:justify-between">
 
@@ -777,7 +633,6 @@ function ResourceBar({
   max,
 }) {
   const numericValue = Number(value) || 0;
-
   const percentage = Math.min(
     (numericValue / max) * 100,
     100
@@ -785,6 +640,7 @@ function ResourceBar({
 
   return (
     <div>
+
       <div className="flex items-center justify-between">
 
         <div className="flex items-center gap-2.5">
@@ -815,6 +671,7 @@ function ResourceBar({
         />
 
       </div>
+
     </div>
   );
 }
@@ -847,53 +704,6 @@ function InfoRow({
   );
 }
 
-function NetworkStep({
-  icon: Icon,
-  title,
-  description,
-}) {
-  return (
-    <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
-      <div className="flex items-start gap-3">
-
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/[0.04] text-white/45">
-          <Icon size={16} />
-        </div>
-
-        <div>
-          <p className="text-xs font-medium text-white/70">
-            {title}
-          </p>
-
-          <p className="mt-1 text-[11px] leading-5 text-white/30">
-            {description}
-          </p>
-        </div>
-
-      </div>
-    </div>
-  );
-}
-
-function NetworkMetric({
-  label,
-  value,
-}) {
-  return (
-    <div className="flex items-center justify-between rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3">
-
-      <span className="text-xs text-white/40">
-        {label}
-      </span>
-
-      <span className="font-display text-lg font-semibold text-white">
-        {value}
-      </span>
-
-    </div>
-  );
-}
-
 function PlanFeature({
   icon: Icon,
   title,
@@ -901,7 +711,6 @@ function PlanFeature({
 }) {
   return (
     <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
-
       <div className="flex items-start gap-3">
 
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/[0.04] text-white/40">
@@ -919,7 +728,6 @@ function PlanFeature({
         </div>
 
       </div>
-
     </div>
   );
 }
@@ -927,7 +735,6 @@ function PlanFeature({
 function PlanCheck({ text }) {
   return (
     <div className="flex items-center gap-2.5">
-
       <CheckCircle2
         size={14}
         className="shrink-0 text-emerald-400/80"
@@ -936,7 +743,6 @@ function PlanCheck({ text }) {
       <span className="text-xs text-white/50">
         {text}
       </span>
-
     </div>
   );
 }

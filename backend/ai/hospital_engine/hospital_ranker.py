@@ -26,9 +26,13 @@ def calculate_resource_match(patient_resources, hospital):
 
 
 def calculate_eta_score(hospital):
-    eta = hospital.get("eta", 999)
+    eta = hospital.get("eta")
 
-    return max(0, 100 - eta * 5)
+    if eta is None:
+        return 0
+
+    # Faster hospital = higher score
+    return max(0, 100 - eta * 2)
 
 
 def calculate_open_score(hospital):
@@ -37,8 +41,10 @@ def calculate_open_score(hospital):
 
 def recommend_hospital(patient_resources, hospitals):
 
-    best_hospital = None
-    best_score = -1
+    if not hospitals:
+        return None
+
+    ranked = []
 
     for hospital in hospitals:
 
@@ -47,55 +53,80 @@ def recommend_hospital(patient_resources, hospitals):
             hospital
         )
 
-        eta_score = calculate_eta_score(hospital)
+        missing = [
+            resource
+            for resource in patient_resources
+            if resource not in matched
+        ]
 
+        # --------------------------------------------------
+        # CRITICAL RULE:
+        # Prefer hospitals that have ALL required resources.
+        # --------------------------------------------------
+
+        complete_match = len(missing) == 0
+
+        eta_score = calculate_eta_score(hospital)
         open_score = calculate_open_score(hospital)
 
+        # Resource availability is the most important factor.
         final_score = (
-            resource_score * 0.80
-            + eta_score * 0.15
+            resource_score * 0.70
+            + eta_score * 0.25
             + open_score * 0.05
         )
 
-        if final_score > best_score:
+        # A hospital missing a required resource should NOT
+        # beat a hospital that has everything.
+        if not complete_match:
+            final_score *= 0.50
 
-            best_score = final_score
+        ranked.append({
+            "hospital": hospital["name"],
+            "score": round(final_score, 2),
 
-            best_hospital = {
-                "hospital": hospital["name"],
-                "score": round(final_score, 2),
+            "latitude": hospital.get("latitude"),
+            "longitude": hospital.get("longitude"),
 
-                # ---------------------------------
-                # Hospital coordinates
-                # ---------------------------------
-                "latitude": hospital.get("latitude"),
-                "longitude": hospital.get("longitude"),
+            "matched_resources": matched,
 
-                # ---------------------------------
-                # Resources
-                # ---------------------------------
-                "matched_resources": matched,
+            "missing_resources": missing,
 
-                "missing_resources": [
-                    r for r in patient_resources
-                    if r not in matched
-                ],
+            "eta": hospital.get("eta"),
+            "distance_km": hospital.get("distance_km"),
 
-                # ---------------------------------
-                # Routing information
-                # ---------------------------------
-                "eta": hospital.get("eta"),
-                "distance_km": hospital.get("distance_km"),
+            "phone": hospital.get("phone"),
+            "address": hospital.get("address"),
 
-                # ---------------------------------
-                # Optional hospital information
-                # ---------------------------------
-                "phone": hospital.get("phone"),
-                "address": hospital.get("address"),
-                "emergency_department": hospital.get(
-                    "emergency_department",
-                    "Emergency Department"
-                ),
-            }
+            "emergency_department": hospital.get(
+                "emergency_department",
+                "Emergency Department"
+            ),
+
+            "_complete_match": complete_match,
+            "_resource_score": resource_score,
+        })
+
+    # --------------------------------------------------
+    # FIRST PRIORITY:
+    # Hospitals with ALL required resources.
+    #
+    # SECOND PRIORITY:
+    # Score.
+    # --------------------------------------------------
+
+    ranked.sort(
+        key=lambda hospital: (
+            hospital["_complete_match"],
+            hospital["score"],
+        ),
+        reverse=True,
+    )
+
+    best_hospital = ranked[0]
+
+    # Remove internal fields before returning
+    best_hospital.pop("_complete_match", None)
+    best_hospital.pop("_resource_score", None)
 
     return best_hospital
