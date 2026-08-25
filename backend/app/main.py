@@ -12,15 +12,26 @@ from app.api.ai import router as ai_router
 from app.api.auth import router as auth_router
 from app.api.patient import router as patient_router
 
+
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
 )
 
+
+# --------------------------------------------------
+# CORS CONFIGURATION
+# --------------------------------------------------
+
 origins = [
+    # Local development
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+
+    # Production frontend
+    "https://liferoute-pi.vercel.app",
 ]
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -30,11 +41,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ----------------------------
-# Validation Error Handler
-# ----------------------------
+
+# --------------------------------------------------
+# VALIDATION ERROR HANDLER
+# --------------------------------------------------
+
 @app.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
+async def validation_exception_handler(
+    request: Request,
+    exc: RequestValidationError,
+):
     print("\n========== VALIDATION ERROR ==========")
     print(exc.errors())
     print("======================================\n")
@@ -44,12 +60,14 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
         content={"detail": exc.errors()},
     )
 
-# ----------------------------
-# Routers
-# ----------------------------
+
+# --------------------------------------------------
+# ROUTERS
+# --------------------------------------------------
+
 app.include_router(health_router)
 app.include_router(emergency_router)
 app.include_router(hospital_router)
 app.include_router(ai_router)
-app.include_router(patient_router)
 app.include_router(auth_router)
+app.include_router(patient_router)
