@@ -93,73 +93,18 @@ def get_hospital(hospital_id: str):
 
 
 # --------------------------------------------------
-# UPDATE AUTHENTICATED HOSPITAL
+# UPDATE HOSPITAL
 # --------------------------------------------------
 
 @router.patch("/{hospital_id}")
 def update_hospital(
     hospital_id: str,
-    update: HospitalUpdate,
-    decoded_token: dict = Depends(
-        verify_firebase_token
-    ),
+    update: HospitalUpdate
 ):
-
-    # --------------------------------------------------
-    # 1. Get authenticated Firebase UID
-    # --------------------------------------------------
-
-    firebase_uid = decoded_token.get("uid")
-
-    if not firebase_uid:
-        return {
-            "message": "Authenticated Firebase user UID not found."
-        }
-
-
-    # --------------------------------------------------
-    # 2. Find hospital
-    # --------------------------------------------------
-
-    hospital = hospital_service.get_hospital_by_id(
-        hospital_id
-    )
-
-    if hospital is None:
-        return {
-            "message": "Hospital not found"
-        }
-
-
-    # --------------------------------------------------
-    # 3. Make sure this hospital belongs to the
-    #    authenticated Firebase account
-    # --------------------------------------------------
-
-    if hospital.get("firebase_uid") != firebase_uid:
-
-        return {
-            "message":
-                "You are not authorized to update this hospital."
-        }
-
-
-    # --------------------------------------------------
-    # 4. Update only supplied fields
-    # --------------------------------------------------
-
-    update_data = update.model_dump(
-        exclude_unset=True
-    )
-
-
-    # --------------------------------------------------
-    # 5. Save to Firestore
-    # --------------------------------------------------
 
     updated = hospital_service.update_hospital(
         hospital_id,
-        update_data
+        update.model_dump(exclude_unset=True)
     )
 
     if updated is None:
@@ -167,17 +112,9 @@ def update_hospital(
             "message": "Hospital not found"
         }
 
-
-    # --------------------------------------------------
-    # 6. Return updated fields
-    # --------------------------------------------------
-
     return {
-        "message":
-            "Hospital resources updated successfully",
-
-        "updated_fields":
-            updated
+        "message": "Hospital updated successfully",
+        "updated_fields": updated
     }
 
 
