@@ -47,13 +47,32 @@ def recommend_hospital(patient_resources, hospitals):
             hospital
         )
 
-        eta_score = calculate_eta_score(hospital)
+        eta = hospital.get("eta")
+
+        # If routing failed, don't give it an artificial advantage.
+        if eta is None:
+            eta_score = 0
+        else:
+            eta_score = max(0, 100 - eta * 5)
 
         open_score = calculate_open_score(hospital)
 
+        # --------------------------------------------------
+        # Resource-first recommendation
+        # --------------------------------------------------
+
+        # Hospitals that cannot provide ANY required resource
+        # should not be preferred.
+        if patient_resources and resource_score == 0:
+            continue
+
+        # Main score:
+        # 70% resource suitability
+        # 25% travel time
+        # 5% availability/open status
         final_score = (
-            resource_score * 0.80
-            + eta_score * 0.15
+            resource_score * 0.70
+            + eta_score * 0.25
             + open_score * 0.05
         )
 
@@ -65,15 +84,9 @@ def recommend_hospital(patient_resources, hospitals):
                 "hospital": hospital["name"],
                 "score": round(final_score, 2),
 
-                # ---------------------------------
-                # Hospital coordinates
-                # ---------------------------------
                 "latitude": hospital.get("latitude"),
                 "longitude": hospital.get("longitude"),
 
-                # ---------------------------------
-                # Resources
-                # ---------------------------------
                 "matched_resources": matched,
 
                 "missing_resources": [
@@ -81,15 +94,9 @@ def recommend_hospital(patient_resources, hospitals):
                     if r not in matched
                 ],
 
-                # ---------------------------------
-                # Routing information
-                # ---------------------------------
                 "eta": hospital.get("eta"),
                 "distance_km": hospital.get("distance_km"),
 
-                # ---------------------------------
-                # Optional hospital information
-                # ---------------------------------
                 "phone": hospital.get("phone"),
                 "address": hospital.get("address"),
                 "emergency_department": hospital.get(
