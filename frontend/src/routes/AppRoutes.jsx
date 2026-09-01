@@ -22,8 +22,6 @@ import HospitalDetails from "../pages/Patient/HospitalDetails";
 import History from "../pages/Patient/History";
 import Profile from "../pages/Patient/Profile";
 
-// RFID / NFC
-import RfidNfcScanner from "../components/patient/RfidNfcScanner";
 
 // Hospital
 import HospitalDashboard from "../pages/Hospital/Dashboard";
@@ -92,12 +90,6 @@ function AppRoutes() {
                             <Dashboard />
                         </ProtectedRoute>
                     }
-                />
-
-                {/* RFID / NFC IDENTIFICATION */}
-                <Route
-                    path="/patient/rfid"
-                    element={<RfidNfcScanner />}
                 />
 
                 {/* Existing emergency assessment */}

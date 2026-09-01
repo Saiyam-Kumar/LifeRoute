@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { getMe } from "../../services/authService";
 
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = "https://liferoute-w329.onrender.com";
 
 export default function Analytics() {
   const [hospital, setHospital] = useState(null);

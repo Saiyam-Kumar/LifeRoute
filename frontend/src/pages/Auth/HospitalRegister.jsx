@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { register, getIdToken } from "../../services/authService";
 
 const API_URL =
-    import.meta.env.VITE_API_URL || "http://localhost:8000";
+    import.meta.env.VITE_API_URL || "https://liferoute-w329.onrender.com";
 
 function HospitalRegister() {
     const navigate = useNavigate();

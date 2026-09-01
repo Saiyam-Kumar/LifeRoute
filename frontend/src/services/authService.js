@@ -7,7 +7,7 @@ import {
 import { auth } from "../firebase";
 
 const API_URL =
-    import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+    import.meta.env.VITE_API_URL || "https://liferoute-w329.onrender.com";
 
 
 // ============================================================

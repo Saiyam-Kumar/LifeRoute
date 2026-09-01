@@ -1,5 +1,3 @@
-import LiveEmergencyStatus
-  from "../../components/patient/LiveEmergencyStatus";
 
 
 function Dashboard() {
@@ -66,8 +64,6 @@ function Dashboard() {
 
 
         <div className="max-w-3xl">
-
-          <LiveEmergencyStatus />
 
         </div>
 

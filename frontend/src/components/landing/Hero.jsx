@@ -96,12 +96,9 @@ export default function Hero() {
               className="mt-9 flex flex-wrap gap-3"
             >
 
-              {/* CHANGED:
-                  Landing → RFID/NFC → Assessment
-              */}
               <Button
                 variant="primary"
-                onClick={() => navigate("/patient/rfid")}
+                onClick={() => navigate("/patient/assessment")}
               >
                 Start Emergency Assessment
               </Button>
