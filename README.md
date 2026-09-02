@@ -244,14 +244,14 @@ backend/ai/
 
 **🏠 Landing Page**
 <br>
-<img src="docs/Screenshots/Landing Page.png" width="100%">
+<img src="docs/screenshots/Landing Page.png" width="100%">
 
 </td>
 <td width="50%">
 
 **🔐 Patient Sign In**
 <br>
-<img src="docs/Screenshots/Sign in page for patient.png" width="100%">
+<img src="docs/screenshots/Sign in page for patient.png" width="100%">
 
 </td>
 </tr>
@@ -260,14 +260,14 @@ backend/ai/
 
 **🏥 Hospital Sign In**
 <br>
-<img src="docs/Screenshots/Sign in page for hospital.png" width="100%">
+<img src="docs/screenshots/Sign in page for hospital.png" width="100%">
 
 </td>
 <td width="50%">
 
 **📝 Patient Assessment**
 <br>
-<img src="docs/Screenshots/Assesment1.png" width="100%">
+<img src="docs/screenshots/Assesment1.png" width="100%">
 
 </td>
 </tr>
@@ -276,14 +276,14 @@ backend/ai/
 
 **📝 Patient Assessment (cont.)**
 <br>
-<img src="docs/Screenshots/Assesment2.png" width="100%">
+<img src="docs/screenshots/Assesment2.png" width="100%">
 
 </td>
 <td width="50%">
 
 **🤖 AI Processing**
 <br>
-<img src="docs/Screenshots/Analysing.png" width="100%">
+<img src="docs/screenshots/Analysing.png" width="100%">
 
 </td>
 </tr>
@@ -292,14 +292,14 @@ backend/ai/
 
 **🎯 Hospital Recommendation**
 <br>
-<img src="docs/Screenshots/Recomend hospital.png" width="100%">
+<img src="docs/screenshots/Recomend hospital.png" width="100%">
 
 </td>
 <td width="50%">
 
 **🏥 Hospital Details**
 <br>
-<img src="docs/Screenshots/Hospital details.png" width="100%">
+<img src="docs/screenshots/Hospital details.png" width="100%">
 
 </td>
 </tr>
@@ -308,7 +308,7 @@ backend/ai/
 
 **📊 Hospital Dashboard**
 <br>
-<img src="docs/Screenshots/Hospital Dashboard.png" width="100%">
+<img src="docs/screenshots/Hospital Dashboard.png" width="100%">
 
 </td>
 <td width="50%"></td>
