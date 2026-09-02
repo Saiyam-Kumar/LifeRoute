@@ -2,7 +2,6 @@ import usePrediction from "../../hooks/usePrediction";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
-
 import {
   Activity,
   HeartPulse,
@@ -165,7 +164,6 @@ export default function Results() {
   return (
     <div className="min-h-screen bg-[#0B0D12] pb-28 text-white">
 
-
       {/* ========================================================== */}
       {/* HEADER                                                      */}
       {/* ========================================================== */}
@@ -174,7 +172,12 @@ export default function Results() {
 
         <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 py-5 flex flex-wrap items-center justify-between gap-4">
 
-          <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2.5"
+            aria-label="Go to LifeRoute home"
+          >
 
             <svg
               width="22"
@@ -216,7 +219,7 @@ export default function Results() {
               Patient Results
             </span>
 
-          </div>
+          </button>
 
           <div className="flex items-center gap-2">
 

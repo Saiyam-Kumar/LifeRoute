@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "./Button";
 
 const LINKS = [
@@ -10,9 +10,14 @@ const LINKS = [
   { label: "Team", href: "#team" },
 ];
 
-function Logo() {
+function Logo({ onClick }) {
   return (
-    <a href="#top" className="flex items-center gap-2.5 shrink-0">
+    <Link
+      to="/"
+      onClick={onClick}
+      className="flex items-center gap-2.5 shrink-0"
+      aria-label="Go to LifeRoute home"
+    >
       <svg
         width="26"
         height="26"
@@ -36,13 +41,17 @@ function Logo() {
       <span className="font-display font-semibold text-[17px] tracking-tightest text-white">
         LifeRoute
       </span>
-    </a>
+    </Link>
   );
 }
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+
+  const closeMenu = () => {
+    setOpen(false);
+  };
 
   const goToAssessment = () => {
     setOpen(false);
@@ -52,11 +61,6 @@ export default function Navbar() {
   const goToHospitalLogin = () => {
     setOpen(false);
     navigate("/hospital/login");
-  };
-
-  const goToHospitalRegister = () => {
-    setOpen(false);
-    navigate("/hospital/register");
   };
 
   return (
@@ -70,7 +74,7 @@ export default function Navbar() {
       className="fixed top-0 inset-x-0 z-[999] bg-[#0B0D12] border-b border-white/10 shadow-lg"
     >
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-8 h-[72px]">
-        <Logo />
+        <Logo onClick={closeMenu} />
 
         {/* Desktop navigation */}
         <div className="hidden md:flex items-center gap-8">
@@ -91,7 +95,6 @@ export default function Navbar() {
           >
             Hospital Portal
           </button>
-
         </div>
 
         {/* Emergency Assessment */}
@@ -130,7 +133,7 @@ export default function Navbar() {
             <a
               key={link.label}
               href={link.href}
-              onClick={() => setOpen(false)}
+              onClick={closeMenu}
               className="text-[15px] font-medium text-white/70 hover:text-white transition-colors"
             >
               {link.label}
